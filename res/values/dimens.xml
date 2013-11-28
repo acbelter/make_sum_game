@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <dimen name="menu_btn_margin">60dp</dimen>
+    <dimen name="btn_size">60dp</dimen>
+    <dimen name="sum_size">40sp</dimen>
+</resources>
