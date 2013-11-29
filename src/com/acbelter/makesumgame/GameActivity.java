@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
 
@@ -20,21 +21,23 @@ public class GameActivity extends Activity {
             "com.acbelter.makesumgame.KEY_FIELD_NUMBERS";
     private static final int FIELD_SIZE = 4;
 
-    private TextView mPlayerSum;
-    private TextView mFullSum;
-    private TextView mTimer;
+    private TextView mPlayerSumView;
+    private TextView mFullSumView;
+    private TextView mTimerView;
 
     private Button[][] mFieldButtons;
     private int[][] mFieldNumbers;
+    private int mPlayerSum;
+    private int mFullSum;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_game);
 
-        mPlayerSum = (TextView) findViewById(id.player_sum);
-        mFullSum = (TextView) findViewById(id.full_sum);
-        mTimer = (TextView) findViewById(id.timer);
+        mPlayerSumView = (TextView) findViewById(id.player_sum);
+        mFullSumView = (TextView) findViewById(id.full_sum);
+        mTimerView = (TextView) findViewById(id.timer);
 
         mFieldButtons = new Button[4][4];
         mFieldButtons[0][0] = (Button) findViewById(id.btn_0_0);
@@ -58,23 +61,68 @@ public class GameActivity extends Activity {
         mFieldButtons[3][3] = (Button) findViewById(id.btn_3_3);
 
         if (savedInstanceState != null) {
-            mPlayerSum.setText(savedInstanceState.getCharSequence(KEY_PLAYER_SUM));
-            mFullSum.setText(savedInstanceState.getCharSequence(KEY_FULL_SUM));
-            mTimer.setText(savedInstanceState.getCharSequence(KEY_TIMER));
-            initField(toTwoDimensionArray(savedInstanceState.getIntArray(KEY_FIELD_NUMBERS)));
+            initField(Utils.toTwoDimensionArray(savedInstanceState
+                    .getIntArray(KEY_FIELD_NUMBERS)));
+            mPlayerSumView.setText(savedInstanceState.getCharSequence(KEY_PLAYER_SUM));
+            mPlayerSum = Integer.parseInt(mPlayerSumView.getText().toString());
+            mFullSumView.setText(savedInstanceState.getCharSequence(KEY_FULL_SUM));
+            mFullSum = Integer.parseInt(mFullSumView.getText().toString());
+            mTimerView.setText(savedInstanceState.getCharSequence(KEY_TIMER));
         } else {
-            mPlayerSum.setText("21");
-            mFullSum.setText("64");
-            mTimer.setText("00:25");
-            initField();
+            newGame();
+        }
+
+        for (int i = 0; i < FIELD_SIZE; i++) {
+            for (int j = 0; j < FIELD_SIZE; j++) {
+                final int finalI = i;
+                final int finalJ = j;
+                mFieldButtons[i][j].setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (v.isSelected()) {
+                            v.setSelected(false);
+                            mPlayerSum -= mFieldNumbers[finalI][finalJ];
+                            mPlayerSumView.setText(String.valueOf(mPlayerSum));
+                        } else {
+                            v.setSelected(true);
+                            mPlayerSum += mFieldNumbers[finalI][finalJ];
+                            mPlayerSumView.setText(String.valueOf(mPlayerSum));
+                            if (mPlayerSum == mFullSum) {
+                                showWinMessage();
+                                newGame();
+                            }
+                        }
+                    }
+                });
+            }
         }
     }
 
-    private void initField() {
-        mFieldNumbers = new int[FIELD_SIZE][FIELD_SIZE];
+    private void newGame() {
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
-                mFieldButtons[i][j].setText(String.valueOf(0));
+                if (mFieldButtons[i][j].isSelected()) {
+                    mFieldButtons[i][j].setSelected(false);
+                }
+            }
+        }
+        initField();
+        mPlayerSum = 0;
+        mPlayerSumView.setText(String.valueOf(mPlayerSum));
+        mFullSum = FieldGenerator.getRandomSum(mFieldNumbers);
+        mFullSumView.setText(String.valueOf(mFullSum));
+        mTimerView.setText("00:30");
+    }
+
+    private void showWinMessage() {
+        Toast.makeText(this, "Made sum " + mFullSum, Toast.LENGTH_LONG).show();
+    }
+
+    private void initField() {
+        mFieldNumbers = FieldGenerator.generateNewField(FIELD_SIZE);
+        for (int i = 0; i < FIELD_SIZE; i++) {
+            for (int j = 0; j < FIELD_SIZE; j++) {
+                mFieldButtons[i][j].setText(String.valueOf(mFieldNumbers[i][j]));
             }
         }
     }
@@ -88,36 +136,13 @@ public class GameActivity extends Activity {
         }
     }
 
-    private static int[] toOneDimensionArray(int[][] array) {
-        int[] result = new int[FIELD_SIZE * FIELD_SIZE];
-        for (int i = 0; i < FIELD_SIZE; i++) {
-            for (int j = 0; j < FIELD_SIZE; j++) {
-                result[i * FIELD_SIZE + j] = array[i][j];
-            }
-        }
-        return result;
-    }
-
-    private static int[][] toTwoDimensionArray(int[] array) {
-        int result[][] = new int[FIELD_SIZE][FIELD_SIZE];
-        int counter = 0;
-        for (int i = 0; i < FIELD_SIZE * FIELD_SIZE; i++) {
-            result[i % FIELD_SIZE][counter] = array[i];
-            if (counter == FIELD_SIZE - 1) {
-                counter = 0;
-            } else {
-                counter++;
-            }
-        }
-        return result;
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        // TODO Save buttons state
         super.onSaveInstanceState(outState);
-        outState.putCharSequence(KEY_PLAYER_SUM, mPlayerSum.getText());
-        outState.putCharSequence(KEY_FULL_SUM, mFullSum.getText());
-        outState.putCharSequence(KEY_TIMER, mTimer.getText());
-        outState.putIntArray(KEY_FIELD_NUMBERS, toOneDimensionArray(mFieldNumbers));
+        outState.putCharSequence(KEY_PLAYER_SUM, mPlayerSumView.getText());
+        outState.putCharSequence(KEY_FULL_SUM, mFullSumView.getText());
+        outState.putCharSequence(KEY_TIMER, mTimerView.getText());
+        outState.putIntArray(KEY_FIELD_NUMBERS, Utils.toOneDimensionArray(mFieldNumbers));
     }
 }
