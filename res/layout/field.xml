@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:columnCount="4"
+            android:orientation="horizontal"
+            android:splitMotionEvents="false">
+
+    <Button
+      android:id="@+id/btn_0_0"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="0_0"/>
+
+    <Button
+      android:id="@+id/btn_0_1"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="0_1"/>
+
+    <Button
+      android:id="@+id/btn_0_2"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="0_2"/>
+
+    <Button
+      android:id="@+id/btn_0_3"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="0_3"/>
+
+    <Button
+      android:id="@+id/btn_1_0"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="1_0"/>
+
+    <Button
+      android:id="@+id/btn_1_1"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="1_1"/>
+
+    <Button
+      android:id="@+id/btn_1_2"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="1_2"/>
+
+    <Button
+      android:id="@+id/btn_1_3"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="1_3"/>
+
+    <Button
+      android:id="@+id/btn_2_0"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="2_0"/>
+
+    <Button
+      android:id="@+id/btn_2_1"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="2_1"/>
+
+    <Button
+      android:id="@+id/btn_2_2"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="2_2"/>
+
+    <Button
+      android:id="@+id/btn_2_3"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="2_3"/>
+
+    <Button
+      android:id="@+id/btn_3_0"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="3_0"/>
+
+    <Button
+      android:id="@+id/btn_3_1"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="3_1"/>
+
+    <Button
+      android:id="@+id/btn_3_2"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="3_2"/>
+
+    <Button
+      android:id="@+id/btn_3_3"
+      android:layout_width="@dimen/btn_size"
+      android:layout_height="@dimen/btn_size"
+      android:background="@drawable/btn_selector"
+      android:text="3_3"/>
+</GridLayout>

@@ -2,10 +2,7 @@ package com.acbelter.makesumgame;
 
 import android.util.Log;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class FieldGenerator {
     private static Level mLevel = Level.EASY;
@@ -73,21 +70,45 @@ public class FieldGenerator {
         Random rnd = new Random(System.nanoTime());
         // Numbers count range: [size-1, 2*(size-1)]
         int[] numbers = new int[rnd.nextInt(size)+(size-1)];
-        int[] oneDimField = Utils.toOneDimensionArray(field);
-        Set<Integer> indexes = new HashSet<Integer>(numbers.length);
         rnd.setSeed(System.nanoTime());
-        for (int i = 0; i < numbers.length; i++) {
-            int n;
-            do {
-                n = rnd.nextInt(oneDimField.length);
-            } while (indexes.contains(n));
-            numbers[i] = oneDimField[n];
-            indexes.add(n);
+        int[] oneDimField = Utils.toOneDimensionArray(field);
+        HashSet<Integer> fieldSet = new HashSet<Integer>(oneDimField.length);
+        for (int i = 0; i < oneDimField.length; i++) {
+            fieldSet.add(oneDimField[i]);
         }
+        Set<Integer> indexes = new HashSet<Integer>(numbers.length);
 
-        int sum = 0;
-        for (int i = 0; i < numbers.length; i++) {
-            sum += numbers[i];
+        int sum;
+        outer:
+        while (true) {
+            indexes.clear();
+            fieldSet.clear();
+            sum = 0;
+
+            for (int i = 0; i < numbers.length; i++) {
+                int n;
+                do {
+                    n = rnd.nextInt(oneDimField.length);
+                } while (indexes.contains(n));
+                numbers[i] = oneDimField[n];
+                indexes.add(n);
+            }
+
+            for (int i = 0; i < numbers.length; i++) {
+                sum += numbers[i];
+            }
+
+            if (fieldSet.contains(sum)) {
+                continue;
+            }
+
+            for (int i = 0; i < oneDimField.length; i++) {
+                if (fieldSet.contains(sum-oneDimField[i])) {
+                    continue outer;
+                }
+            }
+
+            break;
         }
 
         Log.d("DEBUG", "Sum " + sum + " : " + Arrays.toString(numbers));

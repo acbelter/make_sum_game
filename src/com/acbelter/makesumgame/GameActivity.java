@@ -1,7 +1,9 @@
 package com.acbelter.makesumgame;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -9,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
+
+import java.util.ArrayList;
 
 public class GameActivity extends Activity {
     private static final String KEY_PLAYER_SUM =
@@ -19,6 +23,8 @@ public class GameActivity extends Activity {
             "com.acbelter.makesumgame.KEY_TIMER";
     private static final String KEY_FIELD_NUMBERS =
             "com.acbelter.makesumgame.KEY_FIELD_NUMBERS";
+    private static final String KEY_BUTTONS_STATE =
+            "com.acbelter.makesumgame.KEY_BUTTONS_STATE";
     private static final int FIELD_SIZE = 4;
 
     private TextView mPlayerSumView;
@@ -29,6 +35,9 @@ public class GameActivity extends Activity {
     private int[][] mFieldNumbers;
     private int mPlayerSum;
     private int mFullSum;
+
+    // TODO Check the correctness of this timer implementation
+    private CountDownTimer mTimer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +77,16 @@ public class GameActivity extends Activity {
             mFullSumView.setText(savedInstanceState.getCharSequence(KEY_FULL_SUM));
             mFullSum = Integer.parseInt(mFullSumView.getText().toString());
             mTimerView.setText(savedInstanceState.getCharSequence(KEY_TIMER));
+
+            ArrayList<Integer> buttonsState =
+                    savedInstanceState.getIntegerArrayList(KEY_BUTTONS_STATE);
+            for (int i = 0; i < FIELD_SIZE; i++) {
+                for (int j = 0; j < FIELD_SIZE; j++) {
+                    if (buttonsState.contains(mFieldButtons[i][j].getId())) {
+                        mFieldButtons[i][j].setSelected(true);
+                    }
+                }
+            }
         } else {
             newGame();
         }
@@ -82,15 +101,14 @@ public class GameActivity extends Activity {
                         if (v.isSelected()) {
                             v.setSelected(false);
                             mPlayerSum -= mFieldNumbers[finalI][finalJ];
-                            mPlayerSumView.setText(String.valueOf(mPlayerSum));
                         } else {
                             v.setSelected(true);
                             mPlayerSum += mFieldNumbers[finalI][finalJ];
-                            mPlayerSumView.setText(String.valueOf(mPlayerSum));
-                            if (mPlayerSum == mFullSum) {
-                                showWinMessage();
-                                newGame();
-                            }
+                        }
+                        mPlayerSumView.setText(String.valueOf(mPlayerSum));
+                        if (mPlayerSum == mFullSum) {
+                            showWinMessage();
+                            newGame();
                         }
                     }
                 });
@@ -111,11 +129,36 @@ public class GameActivity extends Activity {
         mPlayerSumView.setText(String.valueOf(mPlayerSum));
         mFullSum = FieldGenerator.getRandomSum(mFieldNumbers);
         mFullSumView.setText(String.valueOf(mFullSum));
-        mTimerView.setText("00:30");
+        mTimer = new CountDownTimer(31*1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int seconds = (int) (millisUntilFinished / 1000);
+                int minutes = seconds / 60;
+                seconds = seconds % 60;
+
+                if (seconds < 10) {
+                    mTimerView.setText(minutes + ":0" + seconds);
+                } else {
+                    mTimerView.setText(minutes + ":" + seconds);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                mTimerView.setText("0:00");
+                showLoseMessage();
+            }
+        };
+
+        mTimer.start();
     }
 
     private void showWinMessage() {
-        Toast.makeText(this, "Made sum " + mFullSum, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Made sum " + mFullSum + "!", Toast.LENGTH_LONG).show();
+    }
+
+    private void showLoseMessage() {
+        Toast.makeText(this, "You lose!", Toast.LENGTH_LONG).show();
     }
 
     private void initField() {
@@ -138,11 +181,21 @@ public class GameActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // TODO Save buttons state
         super.onSaveInstanceState(outState);
         outState.putCharSequence(KEY_PLAYER_SUM, mPlayerSumView.getText());
         outState.putCharSequence(KEY_FULL_SUM, mFullSumView.getText());
         outState.putCharSequence(KEY_TIMER, mTimerView.getText());
         outState.putIntArray(KEY_FIELD_NUMBERS, Utils.toOneDimensionArray(mFieldNumbers));
+
+        ArrayList<Integer> buttonsState = new ArrayList<Integer>();
+        for (int i = 0; i < FIELD_SIZE; i++) {
+            for (int j = 0; j < FIELD_SIZE; j++) {
+                if (mFieldButtons[i][j].isSelected()) {
+                    buttonsState.add(mFieldButtons[i][j].getId());
+                }
+            }
+        }
+
+        outState.putIntegerArrayList(KEY_BUTTONS_STATE, buttonsState);
     }
 }
