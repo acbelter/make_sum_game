@@ -1,9 +1,10 @@
-package com.acbelter.makesumgame;
+package com.acbelter.makesumgame.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import com.acbelter.makesumgame.R;
 
 public class MainActivity extends Activity {
 
@@ -13,20 +14,20 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
+    public void startTraining(View view) {
+        Intent startIntent = new Intent(this, BaseGameActivity.class);
+        startActivity(startIntent);
+    }
+
     public void startGame(View view) {
-        Intent startGameIntent = new Intent(this, GameActivity.class);
-        startActivity(startGameIntent);
-    }
-
-    public void startChallenge(View view) {
 
     }
 
-    public void showHighScore(View view) {
+    public void openHighscores(View view) {
 
     }
 
-    public void showSettings(View view) {
+    public void openSettings(View view) {
 
     }
 

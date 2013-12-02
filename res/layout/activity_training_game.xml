@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:layout_marginLeft="16dp"
+      android:layout_marginRight="16dp">
+
+        <TextView
+          android:id="@+id/player_sum"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:gravity="left"
+          android:textSize="@dimen/sum_size"
+          android:textColor="@color/player_sum_color"
+          android:text="50"/>
+
+        <TextView
+          android:id="@+id/full_sum"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:gravity="right"
+          android:textSize="@dimen/sum_size"
+          android:textColor="@color/full_sum_color"
+          android:text="100"/>
+    </LinearLayout>
+
+    <!--<TextView-->
+      <!--android:id="@+id/timer"-->
+      <!--android:layout_width="match_parent"-->
+      <!--android:layout_height="wrap_content"-->
+      <!--android:layout_marginBottom="16dp"-->
+      <!--android:gravity="center"-->
+      <!--android:textSize="@dimen/sum_size"-->
+      <!--android:text="00:30"/>-->
+
+    <include layout="@layout/field"/>
+
+    <!--<LinearLayout-->
+      <!--android:orientation="horizontal"-->
+      <!--android:layout_width="wrap_content"-->
+      <!--android:layout_height="wrap_content"-->
+      <!--android:layout_gravity="center_horizontal"-->
+      <!--android:layout_marginTop="16dp">-->
+
+        <!--<ImageButton-->
+          <!--android:id="@+id/btn_pause"-->
+          <!--android:layout_width="wrap_content"-->
+          <!--android:layout_height="wrap_content"-->
+          <!--android:layout_marginRight="4dp"-->
+          <!--android:src="@drawable/ic_action_pause"-->
+          <!--android:background="@drawable/btn_selector"-->
+          <!--android:contentDescription="@string/pause"-->
+          <!--android:onClick="pauseGame"/>-->
+
+        <!--<ImageButton-->
+          <!--android:id="@+id/btn_undo"-->
+          <!--android:layout_width="wrap_content"-->
+          <!--android:layout_height="wrap_content"-->
+          <!--android:layout_marginLeft="4dp"-->
+          <!--android:background="@drawable/btn_selector"-->
+          <!--android:src="@drawable/ic_action_undo"-->
+          <!--android:contentDescription="@string/undo"-->
+          <!--android:onClick="undoClick"/>-->
+    <!--</LinearLayout>-->
+
+</LinearLayout>

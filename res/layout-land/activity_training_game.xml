@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:baselineAligned="false">
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_margin="16dp">
+
+        <TextView
+          android:id="@+id/player_sum"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:gravity="top|center_horizontal"
+          android:textSize="@dimen/sum_size"
+          android:textColor="@color/player_sum_color"
+          android:text="50"/>
+
+        <!--<TextView-->
+          <!--android:id="@+id/timer"-->
+          <!--android:layout_width="match_parent"-->
+          <!--android:layout_height="0dp"-->
+          <!--android:layout_weight="1"-->
+          <!--android:gravity="center"-->
+          <!--android:textSize="@dimen/sum_size"-->
+          <!--android:text="00:30"/>-->
+
+        <TextView
+          android:id="@+id/full_sum"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:gravity="bottom|center_horizontal"
+          android:textSize="@dimen/sum_size"
+          android:textColor="@color/full_sum_color"
+          android:text="100"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:gravity="center">
+
+        <include layout="@layout/field"/>
+
+    </LinearLayout>
+
+    <!--<LinearLayout-->
+      <!--android:orientation="vertical"-->
+      <!--android:layout_width="wrap_content"-->
+      <!--android:layout_height="wrap_content"-->
+      <!--android:layout_gravity="center_vertical"-->
+      <!--android:layout_margin="16dp">-->
+
+        <!--<ImageButton-->
+          <!--android:id="@+id/btn_pause"-->
+          <!--android:layout_width="wrap_content"-->
+          <!--android:layout_height="wrap_content"-->
+          <!--android:layout_marginBottom="4dp"-->
+          <!--android:background="@drawable/btn_selector"-->
+          <!--android:src="@drawable/ic_action_pause"-->
+          <!--android:contentDescription="@string/pause"/>-->
+
+        <!--<ImageButton-->
+          <!--android:id="@+id/btn_undo"-->
+          <!--android:layout_width="wrap_content"-->
+          <!--android:layout_height="wrap_content"-->
+          <!--android:layout_marginTop="4dp"-->
+          <!--android:background="@drawable/btn_selector"-->
+          <!--android:src="@drawable/ic_action_undo"-->
+          <!--android:contentDescription="@string/undo"/>-->
+    <!--</LinearLayout>-->
+</LinearLayout>

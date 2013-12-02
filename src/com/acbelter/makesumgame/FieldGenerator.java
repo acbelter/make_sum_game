@@ -70,7 +70,6 @@ public class FieldGenerator {
         Random rnd = new Random(System.nanoTime());
         // Numbers count range: [size-1, 2*(size-1)]
         int[] numbers = new int[rnd.nextInt(size)+(size-1)];
-        rnd.setSeed(System.nanoTime());
         int[] oneDimField = Utils.toOneDimensionArray(field);
         HashSet<Integer> fieldSet = new HashSet<Integer>(oneDimField.length);
         for (int i = 0; i < oneDimField.length; i++) {
@@ -81,6 +80,7 @@ public class FieldGenerator {
         int sum;
         outer:
         while (true) {
+            rnd.setSeed(System.nanoTime());
             indexes.clear();
             fieldSet.clear();
             sum = 0;
