@@ -7,20 +7,20 @@ import android.view.View;
 import com.acbelter.makesumgame.R;
 
 public class MainActivity extends Activity {
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
-    public void startTraining(View view) {
-        Intent startIntent = new Intent(this, BaseGameActivity.class);
+    public void startGame(View view) {
+        Intent startIntent = new Intent(this, GameActivity.class);
         startActivity(startIntent);
     }
 
-    public void startGame(View view) {
-
+    public void startTraining(View view) {
+        Intent startIntent = new Intent(this, BaseGameActivity.class);
+        startActivity(startIntent);
     }
 
     public void openHighscores(View view) {

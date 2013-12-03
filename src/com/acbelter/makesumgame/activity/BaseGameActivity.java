@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.acbelter.makesumgame.FieldGenerator;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
@@ -25,8 +27,8 @@ public class BaseGameActivity extends Activity {
 
     protected TextView mPlayerSumView;
     protected TextView mFullSumView;
-
     protected Button[][] mFieldButtons;
+
     protected int[][] mFieldNumbers;
     protected int mPlayerSum;
     protected int mFullSum;
@@ -35,7 +37,33 @@ public class BaseGameActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_training_game);
+        findViews();
 
+        if (savedInstanceState != null) {
+            initField(Utils.toTwoDimensionArray(savedInstanceState
+                    .getIntArray(KEY_FIELD_NUMBERS)));
+            mPlayerSum = savedInstanceState.getInt(KEY_PLAYER_SUM);
+            mPlayerSumView.setText(String.valueOf(mPlayerSum));
+            mFullSum = savedInstanceState.getInt(KEY_FULL_SUM);
+            mFullSumView.setText(String.valueOf(mFullSum));
+
+            ArrayList<Integer> buttonsState =
+                    savedInstanceState.getIntegerArrayList(KEY_BUTTONS_STATE);
+            for (int i = 0; i < FIELD_SIZE; i++) {
+                for (int j = 0; j < FIELD_SIZE; j++) {
+                    if (buttonsState.contains(mFieldButtons[i][j].getId())) {
+                        mFieldButtons[i][j].setSelected(true);
+                    }
+                }
+            }
+        } else {
+            newGame();
+        }
+
+        initFieldButtonsListeners();
+    }
+
+    protected void findViews() {
         mPlayerSumView = (TextView) findViewById(id.player_sum);
         mFullSumView = (TextView) findViewById(id.full_sum);
 
@@ -59,28 +87,9 @@ public class BaseGameActivity extends Activity {
         mFieldButtons[3][1] = (Button) findViewById(id.btn_3_1);
         mFieldButtons[3][2] = (Button) findViewById(id.btn_3_2);
         mFieldButtons[3][3] = (Button) findViewById(id.btn_3_3);
+    }
 
-        if (savedInstanceState != null) {
-            initField(Utils.toTwoDimensionArray(savedInstanceState
-                    .getIntArray(KEY_FIELD_NUMBERS)));
-            mPlayerSumView.setText(savedInstanceState.getCharSequence(KEY_PLAYER_SUM));
-            mPlayerSum = Integer.parseInt(mPlayerSumView.getText().toString());
-            mFullSumView.setText(savedInstanceState.getCharSequence(KEY_FULL_SUM));
-            mFullSum = Integer.parseInt(mFullSumView.getText().toString());
-
-            ArrayList<Integer> buttonsState =
-                    savedInstanceState.getIntegerArrayList(KEY_BUTTONS_STATE);
-            for (int i = 0; i < FIELD_SIZE; i++) {
-                for (int j = 0; j < FIELD_SIZE; j++) {
-                    if (buttonsState.contains(mFieldButtons[i][j].getId())) {
-                        mFieldButtons[i][j].setSelected(true);
-                    }
-                }
-            }
-        } else {
-            newGame();
-        }
-
+    protected void initFieldButtonsListeners() {
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
                 final int finalI = i;
@@ -97,7 +106,7 @@ public class BaseGameActivity extends Activity {
                         }
                         mPlayerSumView.setText(String.valueOf(mPlayerSum));
                         if (mPlayerSum == mFullSum) {
-                            showWinMessage();
+                            showMadeSumMessage();
                             newGame();
                         }
                     }
@@ -147,7 +156,7 @@ public class BaseGameActivity extends Activity {
 //        mTimer.start();
     }
 
-    protected void showWinMessage() {
+    protected void showMadeSumMessage() {
         Toast.makeText(this, "Made sum " + mFullSum + "!", Toast.LENGTH_LONG).show();
     }
 
@@ -172,8 +181,8 @@ public class BaseGameActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putCharSequence(KEY_PLAYER_SUM, mPlayerSumView.getText());
-        outState.putCharSequence(KEY_FULL_SUM, mFullSumView.getText());
+        outState.putInt(KEY_PLAYER_SUM, mPlayerSum);
+        outState.putInt(KEY_FULL_SUM, mFullSum);
         outState.putIntArray(KEY_FIELD_NUMBERS, Utils.toOneDimensionArray(mFieldNumbers));
 
         ArrayList<Integer> buttonsState = new ArrayList<Integer>();

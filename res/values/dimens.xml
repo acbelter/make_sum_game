@@ -3,5 +3,6 @@
 <resources>
     <dimen name="menu_btn_margin">60dp</dimen>
     <dimen name="btn_size">60dp</dimen>
-    <dimen name="sum_size">40sp</dimen>
+    <dimen name="sum_size">32sp</dimen>
+    <dimen name="score_size">24sp</dimen>
 </resources>
