@@ -29,7 +29,7 @@
           android:layout_weight="1"
           android:gravity="center"
           android:textSize="@dimen/sum_size"
-          android:text="00:30"/>
+          android:text="00:00"/>
 
         <TextView
           android:id="@+id/full_sum"

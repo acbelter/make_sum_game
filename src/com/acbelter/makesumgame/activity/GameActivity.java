@@ -3,11 +3,13 @@ package com.acbelter.makesumgame.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.acbelter.makesumgame.BlinkedCountDownTimer;
+import com.acbelter.makesumgame.FieldGenerator;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
+import com.acbelter.makesumgame.TimerState;
 import com.acbelter.makesumgame.Utils;
 
 import java.util.ArrayList;
@@ -17,12 +19,18 @@ public class GameActivity extends BaseGameActivity {
             "com.acbelter.makesumgame.KEY_SCORE";
     protected static final String KEY_FIELD_CLICKABLE =
             "com.acbelter.makesumgame.KEY_FIELD_CLICKABLE";
-    protected GridLayout mField;
+    protected static final String KEY_TIMER_STATE =
+            "com.acbelter.makesumgame.KEY_TIMER_STATE";
     protected TextView mScoreView;
+    protected TextView mTimerView;
     protected long mScore;
+    protected boolean mFieldClickable;
 
     private static final int UNDO_PENALTY = 10;
     private static final int MADE_SUM_SCORE = 20;
+
+    private BlinkedCountDownTimer mTimer;
+    private TimerState mCurrentTimerState;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +58,10 @@ public class GameActivity extends BaseGameActivity {
                 }
             }
 
-            mField.setClickable(savedInstanceState.getBoolean(KEY_FIELD_CLICKABLE));
+            mFieldClickable = savedInstanceState.getBoolean(KEY_FIELD_CLICKABLE);
+            setFieldClickable(mFieldClickable);
+
+            mCurrentTimerState = savedInstanceState.getParcelable(KEY_TIMER_STATE);
         } else {
             newGame();
         }
@@ -59,10 +70,23 @@ public class GameActivity extends BaseGameActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (mCurrentTimerState != null) {
+            mTimer = new BlinkedCountDownTimer(mTimerView,
+                    mCurrentTimerState.millsUntilFinished, 11*1000);
+            mTimer.setBlink(mCurrentTimerState.blink);
+        } else {
+            mTimer = new BlinkedCountDownTimer(mTimerView, 31*1000, 11*1000);
+        }
+        mTimer.start();
+    }
+
+    @Override
     protected void findViews() {
         super.findViews();
-        mField = (GridLayout) findViewById(id.field);
         mScoreView = (TextView) findViewById(id.score);
+        mTimerView = (TextView) findViewById(id.timer);
     }
 
     @Override
@@ -83,7 +107,6 @@ public class GameActivity extends BaseGameActivity {
                             if (mScore < UNDO_PENALTY) {
                                 mScore = 0;
                                 mScoreView.setText(String.valueOf(mScore));
-                                mField.setClickable(false);
                                 showLoseMessage();
                             } else {
                                 mScore -= UNDO_PENALTY;
@@ -105,18 +128,38 @@ public class GameActivity extends BaseGameActivity {
 
     @Override
     protected void newGame() {
-        // FIXME FieldGenerator.getRandomSum() called two times
-        super.newGame();
+        for (int i = 0; i < FIELD_SIZE; i++) {
+            for (int j = 0; j < FIELD_SIZE; j++) {
+                if (mFieldButtons[i][j].isSelected()) {
+                    mFieldButtons[i][j].setSelected(false);
+                }
+            }
+        }
+        initField();
+        mPlayerSum = 0;
+        mPlayerSumView.setText(String.valueOf(mPlayerSum));
+        mFullSum = FieldGenerator.getRandomSum(mFieldNumbers);
+        mFullSumView.setText(String.valueOf(mFullSum));
+        mFieldClickable = true;
     }
 
     protected void showLoseMessage() {
         Toast.makeText(this, "You lose!", Toast.LENGTH_LONG).show();
     }
 
+    protected void setFieldClickable(boolean clickable) {
+        for (int i = 0; i < FIELD_SIZE; i++) {
+            for (int j = 0; j < FIELD_SIZE; j++) {
+                mFieldButtons[i][j].setClickable(clickable);
+            }
+        }
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(KEY_SCORE, mScore);
-        outState.putBoolean(KEY_FIELD_CLICKABLE, mField.isClickable());
+        outState.putBoolean(KEY_FIELD_CLICKABLE, mFieldClickable);
+        outState.putParcelable(KEY_TIMER_STATE, mTimer.getCurrentState());
     }
 }
