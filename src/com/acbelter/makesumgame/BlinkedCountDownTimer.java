@@ -17,8 +17,8 @@ public class BlinkedCountDownTimer extends CountDownTimer {
     public BlinkedCountDownTimer(TextView timerView,
                                  long totalTimeCount,
                                  long timeBlink) {
-        super(totalTimeCount, 500);
-        mTimeBlinkInMillis = timeBlink;
+        super(totalTimeCount+1000, 500);
+        mTimeBlinkInMillis = timeBlink+1000;
         mTimerView = timerView;
         mDefaultTimerViewColor = mTimerView.getTextColors();
     }

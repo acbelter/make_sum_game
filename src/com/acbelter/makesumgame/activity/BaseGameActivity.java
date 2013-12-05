@@ -8,12 +8,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.acbelter.makesumgame.FieldGenerator;
+import com.acbelter.makesumgame.GameScenario.GameScene;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
 import com.acbelter.makesumgame.Utils;
 
 import java.util.ArrayList;
 
+// TODO Use GameScenario
 public class BaseGameActivity extends Activity {
     protected static final String KEY_PLAYER_SUM =
             "com.acbelter.makesumgame.KEY_PLAYER_SUM";
@@ -57,7 +59,7 @@ public class BaseGameActivity extends Activity {
                 }
             }
         } else {
-            newGame();
+            newGame(null);
         }
 
         initFieldButtonsListeners();
@@ -107,7 +109,7 @@ public class BaseGameActivity extends Activity {
                         mPlayerSumView.setText(String.valueOf(mPlayerSum));
                         if (mPlayerSum == mFullSum) {
                             showMadeSumMessage();
-                            newGame();
+                            newGame(null);
                         }
                     }
                 });
@@ -115,7 +117,7 @@ public class BaseGameActivity extends Activity {
         }
     }
 
-    protected void newGame() {
+    protected void newGame(GameScene scene) {
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
                 if (mFieldButtons[i][j].isSelected()) {
@@ -128,32 +130,6 @@ public class BaseGameActivity extends Activity {
         mPlayerSumView.setText(String.valueOf(mPlayerSum));
         mFullSum = FieldGenerator.getRandomSum(mFieldNumbers);
         mFullSumView.setText(String.valueOf(mFullSum));
-
-//        if (mTimer != null) {
-//            mTimer.cancel();
-//        }
-
-//        mTimer = new CountDownTimer(31*1000, 1000) {
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//                int seconds = (int) (millisUntilFinished/1000);
-//                int minutes = seconds/60;
-//                seconds = seconds%60;
-//
-//                if (seconds < 10) {
-//                    mTimerView.setText(minutes + ":0" + seconds);
-//                } else {
-//                    mTimerView.setText(minutes + ":" + seconds);
-//                }
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                mTimerView.setText("0:00");
-//                showLoseMessage();
-//            }
-//        };
-//        mTimer.start();
     }
 
     protected void showMadeSumMessage() {

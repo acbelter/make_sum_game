@@ -5,12 +5,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.acbelter.makesumgame.BlinkedCountDownTimer;
-import com.acbelter.makesumgame.FieldGenerator;
+import com.acbelter.makesumgame.*;
+import com.acbelter.makesumgame.GameScenario.GameScene;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
-import com.acbelter.makesumgame.TimerState;
-import com.acbelter.makesumgame.Utils;
 
 import java.util.ArrayList;
 
@@ -21,6 +19,8 @@ public class GameActivity extends BaseGameActivity {
             "com.acbelter.makesumgame.KEY_FIELD_CLICKABLE";
     protected static final String KEY_TIMER_STATE =
             "com.acbelter.makesumgame.KEY_TIMER_STATE";
+    protected static final String KEY_SCENE_NUMBER =
+            "com.acbelter.makesumgame.KEY_SCENE_NUMBER";
     protected TextView mScoreView;
     protected TextView mTimerView;
     protected long mScore;
@@ -28,6 +28,8 @@ public class GameActivity extends BaseGameActivity {
 
     private static final int UNDO_PENALTY = 10;
     private static final int MADE_SUM_SCORE = 20;
+    private GameScenario mGameScenario;
+    private int mSceneNumber;
 
     private BlinkedCountDownTimer mTimer;
     private TimerState mCurrentTimerState;
@@ -37,6 +39,8 @@ public class GameActivity extends BaseGameActivity {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_game);
         findViews();
+
+        mGameScenario = new SimpleGameScenario(10, 20);
 
         if (savedInstanceState != null) {
             initField(Utils.toTwoDimensionArray(savedInstanceState
@@ -62,8 +66,9 @@ public class GameActivity extends BaseGameActivity {
             setFieldClickable(mFieldClickable);
 
             mCurrentTimerState = savedInstanceState.getParcelable(KEY_TIMER_STATE);
+            mSceneNumber = savedInstanceState.getInt(KEY_SCENE_NUMBER);
         } else {
-            newGame();
+            newGame(mGameScenario.getScene(0));
         }
 
         initFieldButtonsListeners();
@@ -118,7 +123,7 @@ public class GameActivity extends BaseGameActivity {
                             mScore += MADE_SUM_SCORE;
                             mScoreView.setText(String.valueOf(mScore));
                             showMadeSumMessage();
-                            newGame();
+                            newGame(mGameScenario.getScene(mSceneNumber++));
                         }
                     }
                 });
@@ -127,7 +132,7 @@ public class GameActivity extends BaseGameActivity {
     }
 
     @Override
-    protected void newGame() {
+    protected void newGame(GameScene scene) {
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
                 if (mFieldButtons[i][j].isSelected()) {

@@ -5,4 +5,29 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <RadioGroup
+      android:id="@+id/levels"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center">
+        <RadioButton
+          android:id="@+id/level_easy"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:checked="true"
+          android:text="@string/level_easy">
+        </RadioButton>
+        <RadioButton
+          android:id="@+id/level_medium"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/level_medium">
+        </RadioButton>
+        <RadioButton
+          android:id="@+id/level_high"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/level_hard">
+        </RadioButton>
+    </RadioGroup>
 </LinearLayout>

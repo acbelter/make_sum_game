@@ -2,7 +2,10 @@ package com.acbelter.makesumgame;
 
 import android.util.Log;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class FieldGenerator {
     private static Level mLevel = Level.EASY;
@@ -12,6 +15,8 @@ public class FieldGenerator {
         MEDIUM, // numbers from [50, 99]
         HARD // numbers from [100, 999]
     }
+
+    private FieldGenerator() {}
 
     public static void setLevel(Level newLevel) {
         mLevel = newLevel;
