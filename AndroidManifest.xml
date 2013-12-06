@@ -25,7 +25,7 @@
         </activity>
 
         <activity
-          android:name=".activity.BaseGameActivity">
+          android:name=".activity.TrainingGameActivity">
         </activity>
     </application>
 </manifest>

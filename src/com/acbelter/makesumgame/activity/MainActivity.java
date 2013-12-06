@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
     }
 
     public void startTraining(View view) {
-        Intent startIntent = new Intent(this, BaseGameActivity.class);
+        Intent startIntent = new Intent(this, TrainingGameActivity.class);
         startActivity(startIntent);
     }
 

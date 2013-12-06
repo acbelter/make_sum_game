@@ -1,6 +1,7 @@
-package com.acbelter.makesumgame;
+package com.acbelter.makesumgame.game;
 
 import android.util.Log;
+import com.acbelter.makesumgame.Utils;
 
 import java.util.Arrays;
 import java.util.HashSet;

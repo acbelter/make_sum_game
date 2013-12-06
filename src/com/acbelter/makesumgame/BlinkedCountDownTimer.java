@@ -17,8 +17,8 @@ public class BlinkedCountDownTimer extends CountDownTimer {
     public BlinkedCountDownTimer(TextView timerView,
                                  long totalTimeCount,
                                  long timeBlink) {
-        super(totalTimeCount+1000, 500);
-        mTimeBlinkInMillis = timeBlink+1000;
+        super(totalTimeCount, 500);
+        mTimeBlinkInMillis = timeBlink;
         mTimerView = timerView;
         mDefaultTimerViewColor = mTimerView.getTextColors();
     }
@@ -48,7 +48,7 @@ public class BlinkedCountDownTimer extends CountDownTimer {
 
     @Override
     public void onFinish() {
-        mTimerView.setTextColor(sBlinkColor);
+//        mTimerView.setTextColor(sBlinkColor);
     }
 
     public TimerState getCurrentState() {
