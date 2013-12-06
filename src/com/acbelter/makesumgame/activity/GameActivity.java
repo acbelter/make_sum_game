@@ -12,49 +12,25 @@ import com.acbelter.makesumgame.BlinkedCountDownTimer;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
 import com.acbelter.makesumgame.TimerState;
-import com.acbelter.makesumgame.Utils;
-import com.acbelter.makesumgame.game.FieldGenerator;
+import com.acbelter.makesumgame.game.*;
 import com.acbelter.makesumgame.game.FieldGenerator.Level;
-import com.acbelter.makesumgame.game.GameScenario;
-import com.acbelter.makesumgame.game.SimpleGameScenario;
-
-import java.util.ArrayList;
 
 public class GameActivity extends Activity {
-    private static final String KEY_PLAYER_SUM =
-            "com.acbelter.makesumgame.KEY_PLAYER_SUM";
-    private static final String KEY_FULL_SUM =
-            "com.acbelter.makesumgame.KEY_FULL_SUM";
-    private static final String KEY_FIELD_NUMBERS =
-            "com.acbelter.makesumgame.KEY_FIELD_NUMBERS";
-    private static final String KEY_BUTTONS_STATE =
-            "com.acbelter.makesumgame.KEY_BUTTONS_STATE";
-    private static final String KEY_SCORE =
-            "com.acbelter.makesumgame.KEY_SCORE";
-    private static final String KEY_FIELD_CLICKABLE =
-            "com.acbelter.makesumgame.KEY_FIELD_CLICKABLE";
     private static final String KEY_TIMER_STATE =
             "com.acbelter.makesumgame.KEY_TIMER_STATE";
-    private static final String KEY_SCENE_NUMBER =
-            "com.acbelter.makesumgame.KEY_SCENE_NUMBER";
     private static final String KEY_GAME_OVER_FLAG =
             "com.acbelter.makesumgame.KEY_GAME_OVER_FLAG";
     private static final int FIELD_SIZE = 4;
 
+    private Button[][] mFieldButtons;
     private TextView mPlayerSumView;
     private TextView mFullSumView;
-    private Button[][] mFieldButtons;
-    private int[][] mFieldNumbers;
-    private int mPlayerSum;
-    private int mFullSum;
     private TextView mScoreView;
     private TextView mTimerView;
-    private long mScore;
-    private boolean mFieldClickable;
-    private GameScenario mGameScenario;
-    private int mSceneNumber;
     private BlinkedCountDownTimer mTimer;
     private TimerState mCurrentTimerState;
+    private BaseGameScenario mGameScenario;
+    private GameState mGameState;
     private boolean mGameOverFlag;
 
     @Override
@@ -62,76 +38,25 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_game);
         findViews();
-
         mGameScenario = new SimpleGameScenario();
-
         if (savedInstanceState != null) {
-            initField(Utils.toTwoDimensionArray(savedInstanceState
-                    .getIntArray(KEY_FIELD_NUMBERS)));
-            mPlayerSum = savedInstanceState.getInt(KEY_PLAYER_SUM);
-            mPlayerSumView.setText(String.valueOf(mPlayerSum));
-            mFullSum = savedInstanceState.getInt(KEY_FULL_SUM);
-            mFullSumView.setText(String.valueOf(mFullSum));
-            mScore = savedInstanceState.getLong(KEY_SCORE);
-            mScoreView.setText(String.valueOf(mScore));
-
-            ArrayList<Integer> buttonsState =
-                    savedInstanceState.getIntegerArrayList(KEY_BUTTONS_STATE);
-            for (int i = 0; i < FIELD_SIZE; i++) {
-                for (int j = 0; j < FIELD_SIZE; j++) {
-                    if (buttonsState.contains(mFieldButtons[i][j].getId())) {
-                        mFieldButtons[i][j].setSelected(true);
-                    }
-                }
-            }
-
-            mFieldClickable = savedInstanceState.getBoolean(KEY_FIELD_CLICKABLE);
-            setFieldClickable(mFieldClickable);
-
-            mCurrentTimerState = savedInstanceState.getParcelable(KEY_TIMER_STATE);
-            mSceneNumber = savedInstanceState.getInt(KEY_SCENE_NUMBER);
+            mGameState = savedInstanceState.getParcelable(BaseGameState.KEY_GAME_STATE);
+            mPlayerSumView.setText(mGameState.getPlayerSumValue());
+            mFullSumView.setText(mGameState.getFullSumValue());
+            mScoreView.setText(mGameState.getScoreValue());
+            initField(mGameState.fieldNumbers);
             mGameOverFlag = savedInstanceState.getBoolean(KEY_GAME_OVER_FLAG);
+            if (!mGameOverFlag) {
+                initButtonsState(mGameState.buttonsState);
+            } else {
+                setFieldClickable(false);
+            }
+            mCurrentTimerState = savedInstanceState.getParcelable(KEY_TIMER_STATE);
         } else {
-            newGame(mGameScenario.getScene(mSceneNumber).level);
+            newGame(mGameScenario.getScene(0).level);
         }
 
         initFieldButtonsListeners();
-    }
-
-    private void initField(Level level) {
-        FieldGenerator.setLevel(level);
-        mFieldNumbers = FieldGenerator.generateNewField(FIELD_SIZE);
-        for (int i = 0; i < FIELD_SIZE; i++) {
-            for (int j = 0; j < FIELD_SIZE; j++) {
-                mFieldButtons[i][j].setText(String.valueOf(mFieldNumbers[i][j]));
-            }
-        }
-    }
-
-    private void initField(int[][] fieldNumbers) {
-        mFieldNumbers = fieldNumbers;
-        for (int i = 0; i < FIELD_SIZE; i++) {
-            for (int j = 0; j < FIELD_SIZE; j++) {
-                mFieldButtons[i][j].setText(String.valueOf(mFieldNumbers[i][j]));
-            }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mGameOverFlag) {
-            return;
-        }
-        if (mCurrentTimerState != null) {
-            mTimer = new BlinkedCountDownTimer(mTimerView,
-                    mCurrentTimerState.millsUntilFinished, 10*1000);
-            mTimer.setBlink(mCurrentTimerState.blink);
-        } else {
-            mTimer = new BlinkedCountDownTimer(mTimerView,
-                    mGameScenario.getScene(mSceneNumber).timerMillis, 10*1000);
-        }
-        mTimer.start();
     }
 
     private void findViews() {
@@ -163,6 +88,49 @@ public class GameActivity extends Activity {
         mTimerView = (TextView) findViewById(id.timer);
     }
 
+    private void initButtonsState(boolean[][] state) {
+        for (int i = 0; i < FIELD_SIZE; i++) {
+            for (int j = 0; j < FIELD_SIZE; j++) {
+                mFieldButtons[i][j].setSelected(state[i][j]);
+            }
+        }
+    }
+
+    private int[][] newField(Level level) {
+        FieldGenerator.setLevel(level);
+        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE);
+        for (int i = 0; i < FIELD_SIZE; i++) {
+            for (int j = 0; j < FIELD_SIZE; j++) {
+                mFieldButtons[i][j].setText(String.valueOf(field[i][j]));
+                mFieldButtons[i][j].setClickable(true);
+            }
+        }
+        return field;
+    }
+
+    private void initField(int[][] fieldNumbers) {
+        for (int i = 0; i < FIELD_SIZE; i++) {
+            for (int j = 0; j < FIELD_SIZE; j++) {
+                mFieldButtons[i][j].setText(String.valueOf(fieldNumbers[i][j]));
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mCurrentTimerState != null) {
+            mTimer = new BlinkedCountDownTimer(mTimerView,
+                    mCurrentTimerState.millsUntilFinished, 10*1000);
+            mTimer.setBlink(mCurrentTimerState.blink);
+            mTimer.start();
+        } else if (!mGameOverFlag) {
+            mTimer = new BlinkedCountDownTimer(mTimerView,
+                    mGameScenario.getScene(mGameState.sceneNumber).timerMillis, 10*1000);
+            mTimer.start();
+        }
+    }
+
     private void initFieldButtonsListeners() {
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
@@ -173,28 +141,29 @@ public class GameActivity extends Activity {
                     public void onClick(View v) {
                         if (!v.isSelected()) {
                             v.setSelected(true);
-                            mPlayerSum += mFieldNumbers[finalI][finalJ];
+                            mGameState.buttonsState[finalI][finalJ] = true;
+                            mGameState.playerSum += mGameState.fieldNumbers[finalI][finalJ];
                         } else {
                             v.setSelected(false);
-                            mPlayerSum -= mFieldNumbers[finalI][finalJ];
-                            if (mScore < mGameScenario.getScene(mSceneNumber).undoPenalty) {
-                                mScore = 0;
-                                mScoreView.setText(String.valueOf(mScore));
-                                showLoseMessage();
-                            } else {
-                                mScore -= mGameScenario.getScene(mSceneNumber).undoPenalty;
-                                mScoreView.setText(String.valueOf(mScore));
+                            mGameState.buttonsState[finalI][finalJ] = false;
+                            mGameState.playerSum -= mGameState.fieldNumbers[finalI][finalJ];
+                            mGameState.score -=
+                                    mGameScenario.getScene(mGameState.sceneNumber).undoPenalty;
+                            if (mGameState.score < 0) {
+                                mGameState.score = 0;
                             }
+                            mScoreView.setText(mGameState.getScoreValue());
                         }
-                        mPlayerSumView.setText(String.valueOf(mPlayerSum));
-                        if (mPlayerSum == mFullSum) {
-                            mScore += mGameScenario.getScene(mSceneNumber).madeSumScore;
-                            mScoreView.setText(String.valueOf(mScore));
-                            if (mSceneNumber == mGameScenario.size()-1) {
+                        mPlayerSumView.setText(mGameState.getPlayerSumValue());
+                        if (mGameState.playerSum == mGameState.fullSum) {
+                            mGameState.score +=
+                                    mGameScenario.getScene(mGameState.sceneNumber).madeSumScore;
+                            mScoreView.setText(mGameState.getScoreValue());
+                            if (mGameState.sceneNumber == mGameScenario.size()-1) {
                                 endGame();
                             } else {
                                 showMadeSumMessage();
-                                newGame(mGameScenario.getScene(++mSceneNumber).level);
+                                newGame(mGameScenario.getScene(++mGameState.sceneNumber).level);
                             }
                         }
                     }
@@ -207,31 +176,31 @@ public class GameActivity extends Activity {
         showGameOverMessage();
         mTimer.cancel();
         mTimerView.setText("00:00");
-        mFieldClickable = false;
         setFieldClickable(false);
         mGameOverFlag = true;
     }
 
     private void newGame(Level level) {
         Log.d("DEBUG", "Level: " + level.name());
+        int[][] field = newField(level);
+        int fullSum = FieldGenerator.getRandomSum(field);
+        mGameState = new GameState(field, 0, fullSum);
+
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
-                if (mFieldButtons[i][j].isSelected()) {
-                    mFieldButtons[i][j].setSelected(false);
-                }
+                mFieldButtons[i][j].setSelected(false);
             }
         }
-        initField(level);
-        mPlayerSum = 0;
-        mPlayerSumView.setText(String.valueOf(mPlayerSum));
-        mFullSum = FieldGenerator.getRandomSum(mFieldNumbers);
-        mFullSumView.setText(String.valueOf(mFullSum));
-        mFieldClickable = true;
+
+        mPlayerSumView.setText(mGameState.getPlayerSumValue());
+        mFullSumView.setText(mGameState.getFullSumValue());
+        mScoreView.setText(mGameState.getScoreValue());
+        mGameOverFlag = false;
 
         if (mTimer != null) {
             mTimer.cancel();
             mTimer = new BlinkedCountDownTimer(mTimerView,
-                    mGameScenario.getScene(mSceneNumber).timerMillis, 10*1000);
+                    mGameScenario.getScene(mGameState.sceneNumber).timerMillis, 10*1000);
             mTimer.start();
         }
     }
@@ -241,7 +210,8 @@ public class GameActivity extends Activity {
     }
 
     private void showMadeSumMessage() {
-        Toast.makeText(this, "Made sum " + mFullSum + "!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Made sum " + mGameState.getFullSumValue() + "!",
+                Toast.LENGTH_LONG).show();
     }
 
     private void showLoseMessage() {
@@ -259,22 +229,10 @@ public class GameActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(KEY_PLAYER_SUM, mPlayerSum);
-        outState.putInt(KEY_FULL_SUM, mFullSum);
-        outState.putIntArray(KEY_FIELD_NUMBERS, Utils.toOneDimensionArray(mFieldNumbers));
-
-        ArrayList<Integer> buttonsState = new ArrayList<Integer>();
-        for (int i = 0; i < FIELD_SIZE; i++) {
-            for (int j = 0; j < FIELD_SIZE; j++) {
-                if (mFieldButtons[i][j].isSelected()) {
-                    buttonsState.add(mFieldButtons[i][j].getId());
-                }
-            }
+        outState.putParcelable(BaseGameState.KEY_GAME_STATE, mGameState);
+        outState.putBoolean(KEY_GAME_OVER_FLAG, mGameOverFlag);
+        if (!mGameOverFlag) {
+            outState.putParcelable(KEY_TIMER_STATE, mTimer.getCurrentState());
         }
-
-        outState.putIntegerArrayList(KEY_BUTTONS_STATE, buttonsState);
-        outState.putLong(KEY_SCORE, mScore);
-        outState.putBoolean(KEY_FIELD_CLICKABLE, mFieldClickable);
-        outState.putParcelable(KEY_TIMER_STATE, mTimer.getCurrentState());
     }
 }

@@ -4,10 +4,10 @@ import com.acbelter.makesumgame.game.FieldGenerator.Level;
 
 import java.util.ArrayList;
 
-public abstract class GameScenario {
+public abstract class BaseGameScenario {
     protected ArrayList<GameScene> mGameScenes;
 
-    public GameScenario() {
+    public BaseGameScenario() {
         mGameScenes = new ArrayList<GameScene>();
         init();
     }

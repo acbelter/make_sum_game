@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.acbelter.makesumgame.Utils;
 
-public class TrainingGameState extends GameState {
+public class TrainingGameState extends BaseGameState {
     public int[][] fieldNumbers;
     public boolean[][] buttonsState;
     public int playerSum;

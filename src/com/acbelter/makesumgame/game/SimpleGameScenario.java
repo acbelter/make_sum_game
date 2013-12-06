@@ -2,7 +2,7 @@ package com.acbelter.makesumgame.game;
 
 import com.acbelter.makesumgame.game.FieldGenerator.Level;
 
-public class SimpleGameScenario extends GameScenario {
+public class SimpleGameScenario extends BaseGameScenario {
     private static final int UNDO_PENALTY = 10;
     private static final int MADE_SUM_SCORE = 20;
 

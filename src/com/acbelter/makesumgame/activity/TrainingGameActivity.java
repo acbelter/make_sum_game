@@ -9,9 +9,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
+import com.acbelter.makesumgame.game.BaseGameState;
 import com.acbelter.makesumgame.game.FieldGenerator;
 import com.acbelter.makesumgame.game.FieldGenerator.Level;
-import com.acbelter.makesumgame.game.GameState;
 import com.acbelter.makesumgame.game.TrainingGameState;
 
 public class TrainingGameActivity extends Activity {
@@ -26,9 +26,8 @@ public class TrainingGameActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_training_game);
         findViews();
-
         if (savedInstanceState != null) {
-            mGameState = savedInstanceState.getParcelable(GameState.KEY_GAME_STATE);
+            mGameState = savedInstanceState.getParcelable(BaseGameState.KEY_GAME_STATE);
             mPlayerSumView.setText(mGameState.getPlayerSumValue());
             mFullSumView.setText(mGameState.getFullSumValue());
             initField(mGameState.fieldNumbers);
@@ -36,7 +35,6 @@ public class TrainingGameActivity extends Activity {
         } else {
             newGame(loadLevelFromPref());
         }
-
         initFieldButtonsListeners();
     }
 
@@ -82,13 +80,11 @@ public class TrainingGameActivity extends Activity {
                         if (!v.isSelected()) {
                             v.setSelected(true);
                             mGameState.buttonsState[finalI][finalJ] = true;
-                            mGameState.playerSum +=
-                                    mGameState.fieldNumbers[finalI][finalJ];
+                            mGameState.playerSum += mGameState.fieldNumbers[finalI][finalJ];
                         } else {
                             v.setSelected(false);
                             mGameState.buttonsState[finalI][finalJ] = false;
-                            mGameState.playerSum -=
-                                    mGameState.fieldNumbers[finalI][finalJ];
+                            mGameState.playerSum -= mGameState.fieldNumbers[finalI][finalJ];
                         }
                         mPlayerSumView.setText(mGameState.getPlayerSumValue());
                         if (mGameState.playerSum == mGameState.fullSum) {
@@ -151,6 +147,6 @@ public class TrainingGameActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(GameState.KEY_GAME_STATE, mGameState);
+        outState.putParcelable(BaseGameState.KEY_GAME_STATE, mGameState);
     }
 }
