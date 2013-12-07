@@ -15,12 +15,10 @@ public abstract class BaseGameScenario {
     public class GameScene  {
         public Level level;
         public long timerMillis;
-        public int undoPenalty;
-        public int madeSumScore;
+        public long undoPenalty;
+        public long madeSumScore;
 
-        public GameScene() {}
-
-        public GameScene(Level level, long timerMillis, int undoPenalty, int madeSumScore) {
+        public GameScene(Level level, long timerMillis, long undoPenalty, long madeSumScore) {
             this.level = level;
             this.timerMillis = timerMillis;
             this.undoPenalty = undoPenalty;
@@ -38,8 +36,7 @@ public abstract class BaseGameScenario {
         return mGameScenes.size();
     }
 
-    public void addScene(Level level, long timerMillis, int undoPenalty, int madeSumScore) {
+    public void addScene(Level level, long timerMillis, long undoPenalty, long madeSumScore) {
         mGameScenes.add(new GameScene(level, timerMillis, undoPenalty, madeSumScore));
     }
-
 }

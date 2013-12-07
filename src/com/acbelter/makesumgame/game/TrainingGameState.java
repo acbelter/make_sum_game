@@ -38,10 +38,6 @@ public class TrainingGameState extends BaseGameState {
         return String.valueOf(fullSum);
     }
 
-    public String getFieldNumberValue(int i, int j) {
-        return String.valueOf(fieldNumbers[i][j]);
-    }
-
     @Override
     public int describeContents() {
         return 0;

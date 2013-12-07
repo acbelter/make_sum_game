@@ -32,6 +32,10 @@ public class BlinkedCountDownTimer extends CountDownTimer {
         mBlink = blink;
     }
 
+    public ColorStateList getDefaultTimerViewColor() {
+        return mDefaultTimerViewColor;
+    }
+
     @Override
     public void onTick(long millisUntilFinished) {
         mMillisUntilFinished = millisUntilFinished;

@@ -103,7 +103,13 @@ public class TrainingGameActivity extends Activity {
     private void newGame(Level level) {
         int[][] field = newField(level);
         int fullSum = FieldGenerator.getRandomSum(field);
-        mGameState = new TrainingGameState(field, 0, fullSum);
+        if (mGameState == null) {
+            mGameState = new TrainingGameState(field, 0, fullSum);
+        } else {
+            mGameState.fieldNumbers = field;
+            mGameState.playerSum = 0;
+            mGameState.fullSum = fullSum;
+        }
 
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
@@ -117,7 +123,7 @@ public class TrainingGameActivity extends Activity {
 
     private void showMadeSumMessage() {
         Toast.makeText(this, "Made sum " + mGameState.getFullSumValue() + "!",
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_SHORT).show();
     }
 
     private void initButtonsState(boolean[][] state) {

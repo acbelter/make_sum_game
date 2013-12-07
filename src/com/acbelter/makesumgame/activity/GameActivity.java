@@ -197,7 +197,13 @@ public class GameActivity extends Activity {
         Log.d("DEBUG", "Level: " + level.name());
         int[][] field = newField(level);
         int fullSum = FieldGenerator.getRandomSum(field);
-        mGameState = new GameState(field, 0, fullSum);
+        if (mGameState == null) {
+            mGameState = new GameState(field, 0, fullSum);
+        } else {
+            mGameState.fieldNumbers = field;
+            mGameState.playerSum = 0;
+            mGameState.fullSum = fullSum;
+        }
 
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
@@ -212,6 +218,7 @@ public class GameActivity extends Activity {
 
         if (mTimer != null) {
             mTimer.cancel();
+            mTimerView.setTextColor(mTimer.getDefaultTimerViewColor());
             mTimer = new BlinkedCountDownTimer(mTimerView,
                     mGameScenario.getScene(mGameState.sceneNumber).timerMillis,
                     10*1000, mTimerHandler);
@@ -220,12 +227,13 @@ public class GameActivity extends Activity {
     }
 
     private void showGameOverMessage() {
-        Toast.makeText(this, "Game over!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Game over! Your score is " + mGameState.score + ".",
+                Toast.LENGTH_LONG).show();
     }
 
     private void showMadeSumMessage() {
         Toast.makeText(this, "Made sum " + mGameState.getFullSumValue() + "!",
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_SHORT).show();
     }
 
     private void showLoseMessage() {
