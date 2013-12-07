@@ -9,8 +9,6 @@ import java.util.Random;
 import java.util.Set;
 
 public class FieldGenerator {
-    private static Level mLevel = Level.EASY;
-
     public enum Level {
         EASY, // numbers from [1, 50]
         MEDIUM, // numbers from [50, 99]
@@ -19,15 +17,11 @@ public class FieldGenerator {
 
     private FieldGenerator() {}
 
-    public static void setLevel(Level newLevel) {
-        mLevel = newLevel;
-    }
-
-    public static int[][] generateNewField(int fieldSize) {
+    public static int[][] generateNewField(int fieldSize, Level level) {
         int[][] field = new int[fieldSize][fieldSize];
         Set<Integer> generatedNumbers = new HashSet<Integer>();
         Random rnd = new Random(System.nanoTime());
-        switch (mLevel) {
+        switch (level) {
             case EASY: {
                 for (int i = 0; i < fieldSize; i++) {
                     for (int j = 0; j < fieldSize; j++) {

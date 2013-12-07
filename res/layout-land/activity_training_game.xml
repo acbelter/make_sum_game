@@ -18,7 +18,7 @@
           android:layout_height="0dp"
           android:layout_weight="1"
           android:gravity="top|center_horizontal"
-          android:textSize="@dimen/sum_size"
+          android:textSize="@dimen/big_size"
           android:textColor="@color/player_sum_color"
           android:text="50"/>
 
@@ -37,7 +37,7 @@
           android:layout_height="0dp"
           android:layout_weight="1"
           android:gravity="bottom|center_horizontal"
-          android:textSize="@dimen/sum_size"
+          android:textSize="@dimen/big_size"
           android:textColor="@color/full_sum_color"
           android:text="100"/>
     </LinearLayout>

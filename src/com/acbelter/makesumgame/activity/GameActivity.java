@@ -2,6 +2,8 @@ package com.acbelter.makesumgame.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +34,7 @@ public class GameActivity extends Activity {
     private BaseGameScenario mGameScenario;
     private GameState mGameState;
     private boolean mGameOverFlag;
+    private Handler mTimerHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,16 @@ public class GameActivity extends Activity {
         setContentView(layout.activity_game);
         findViews();
         mGameScenario = new SimpleGameScenario();
+        mTimerHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == BlinkedCountDownTimer.CODE_FINISHED) {
+                    showLoseMessage();
+                    endGame();
+                }
+            }
+        };
+
         if (savedInstanceState != null) {
             mGameState = savedInstanceState.getParcelable(BaseGameState.KEY_GAME_STATE);
             mPlayerSumView.setText(mGameState.getPlayerSumValue());
@@ -49,7 +62,7 @@ public class GameActivity extends Activity {
             if (!mGameOverFlag) {
                 initButtonsState(mGameState.buttonsState);
             } else {
-                setFieldClickable(false);
+                setFieldEnabled(false);
             }
             mCurrentTimerState = savedInstanceState.getParcelable(KEY_TIMER_STATE);
         } else {
@@ -97,8 +110,7 @@ public class GameActivity extends Activity {
     }
 
     private int[][] newField(Level level) {
-        FieldGenerator.setLevel(level);
-        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE);
+        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE, level);
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
                 mFieldButtons[i][j].setText(String.valueOf(field[i][j]));
@@ -121,12 +133,13 @@ public class GameActivity extends Activity {
         super.onResume();
         if (mCurrentTimerState != null) {
             mTimer = new BlinkedCountDownTimer(mTimerView,
-                    mCurrentTimerState.millsUntilFinished, 10*1000);
+                    mCurrentTimerState.millsUntilFinished, 10*1000, mTimerHandler);
             mTimer.setBlink(mCurrentTimerState.blink);
             mTimer.start();
         } else if (!mGameOverFlag) {
             mTimer = new BlinkedCountDownTimer(mTimerView,
-                    mGameScenario.getScene(mGameState.sceneNumber).timerMillis, 10*1000);
+                    mGameScenario.getScene(mGameState.sceneNumber).timerMillis,
+                    10*1000, mTimerHandler);
             mTimer.start();
         }
     }
@@ -160,6 +173,7 @@ public class GameActivity extends Activity {
                                     mGameScenario.getScene(mGameState.sceneNumber).madeSumScore;
                             mScoreView.setText(mGameState.getScoreValue());
                             if (mGameState.sceneNumber == mGameScenario.size()-1) {
+                                showGameOverMessage();
                                 endGame();
                             } else {
                                 showMadeSumMessage();
@@ -173,10 +187,9 @@ public class GameActivity extends Activity {
     }
 
     private void endGame() {
-        showGameOverMessage();
         mTimer.cancel();
         mTimerView.setText("00:00");
-        setFieldClickable(false);
+        setFieldEnabled(false);
         mGameOverFlag = true;
     }
 
@@ -200,7 +213,8 @@ public class GameActivity extends Activity {
         if (mTimer != null) {
             mTimer.cancel();
             mTimer = new BlinkedCountDownTimer(mTimerView,
-                    mGameScenario.getScene(mGameState.sceneNumber).timerMillis, 10*1000);
+                    mGameScenario.getScene(mGameState.sceneNumber).timerMillis,
+                    10*1000, mTimerHandler);
             mTimer.start();
         }
     }
@@ -218,10 +232,10 @@ public class GameActivity extends Activity {
         Toast.makeText(this, "You lose!", Toast.LENGTH_LONG).show();
     }
 
-    private void setFieldClickable(boolean clickable) {
+    private void setFieldEnabled(boolean enabled) {
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
-                mFieldButtons[i][j].setClickable(clickable);
+                mFieldButtons[i][j].setEnabled(enabled);
             }
         }
     }

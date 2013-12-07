@@ -21,11 +21,19 @@
         </activity>
 
         <activity
+          android:name=".activity.TrainingGameActivity">
+        </activity>
+
+        <activity
           android:name=".activity.GameActivity">
         </activity>
 
         <activity
-          android:name=".activity.TrainingGameActivity">
+          android:name=".activity.HighscoresActivity">
+        </activity>
+
+        <activity
+          android:name=".activity.SettingsActivity">
         </activity>
     </application>
 </manifest>

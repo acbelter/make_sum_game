@@ -3,24 +3,29 @@ package com.acbelter.makesumgame;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.widget.TextView;
 
 public class BlinkedCountDownTimer extends CountDownTimer {
-    protected TextView mTimerView;
-    protected static int sBlinkColor = Color.RED;
-
+    public static final int CODE_FINISHED = 0;
+    private static int sBlinkColor = Color.RED;
+    private TextView mTimerView;
     private ColorStateList mDefaultTimerViewColor;
-    private long mTimeBlinkInMillis;      // start time of start blinking
-    private boolean mBlink;               // controls the blinking .. on and off
+    private long mTimeBlinkInMillis;
+    private boolean mBlink;
     private long mMillisUntilFinished;
+    private Handler mHandler;
 
     public BlinkedCountDownTimer(TextView timerView,
                                  long totalTimeCount,
-                                 long timeBlink) {
+                                 long timeBlink,
+                                 Handler handler) {
         super(totalTimeCount, 500);
+        mHandler = handler;
         mTimeBlinkInMillis = timeBlink;
         mTimerView = timerView;
         mDefaultTimerViewColor = mTimerView.getTextColors();
+        mBlink = true;
     }
 
     public void setBlink(boolean blink) {
@@ -48,7 +53,8 @@ public class BlinkedCountDownTimer extends CountDownTimer {
 
     @Override
     public void onFinish() {
-//        mTimerView.setTextColor(sBlinkColor);
+        mTimerView.setTextColor(mDefaultTimerViewColor);
+        mHandler.sendEmptyMessage(CODE_FINISHED);
     }
 
     public TimerState getCurrentState() {

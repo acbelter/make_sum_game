@@ -1,7 +1,9 @@
 package com.acbelter.makesumgame.activity;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -39,8 +41,9 @@ public class TrainingGameActivity extends Activity {
     }
 
     private Level loadLevelFromPref() {
-        // TODO Load Level from Pref
-        return Level.EASY;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String levelStr = prefs.getString(SettingsActivity.PREF_LEVEL, Level.EASY.name());
+        return Level.valueOf(levelStr);
     }
 
     private void findViews() {
@@ -126,8 +129,7 @@ public class TrainingGameActivity extends Activity {
     }
 
     private int[][] newField(Level level) {
-        FieldGenerator.setLevel(level);
-        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE);
+        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE, level);
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
                 mFieldButtons[i][j].setText(String.valueOf(field[i][j]));

@@ -19,7 +19,7 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:gravity="left"
-          android:textSize="@dimen/sum_size"
+          android:textSize="@dimen/big_size"
           android:textColor="@color/player_sum_color"
           android:text="50"/>
 
@@ -29,7 +29,7 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:gravity="right"
-          android:textSize="@dimen/sum_size"
+          android:textSize="@dimen/big_size"
           android:textColor="@color/full_sum_color"
           android:text="100"/>
     </LinearLayout>
