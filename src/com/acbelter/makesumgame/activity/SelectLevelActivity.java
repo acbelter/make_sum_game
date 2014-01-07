@@ -18,10 +18,33 @@ package com.acbelter.makesumgame.activity;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import com.acbelter.makesumgame.Test;
+import com.acbelter.makesumgame.game.Level;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SelectLevelActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        List<Level> levels = Test.generateTestLevels();
+
+        List<LevelItem> levelItems = new ArrayList<LevelItem>(levels.size());
+        for (int i = 0; i < levels.size(); i++) {
+            levelItems.add(new LevelItem(levels.get(i)));
+        }
+
+        final LevelsListAdapter adapter = new LevelsListAdapter(this, levelItems);
+        setListAdapter(adapter);
+        getListView().setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //adapter.getItem(position)
+            }
+        });
     }
 }

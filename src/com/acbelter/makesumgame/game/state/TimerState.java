@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.acbelter.makesumgame;
+package com.acbelter.makesumgame.game.state;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -39,9 +39,9 @@ public class TimerState implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(millsUntilFinished);
-        dest.writeByte((byte) (blink ? 1 : 0));
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeLong(millsUntilFinished);
+        out.writeByte((byte) (blink ? 1 : 0));
     }
 
     public static final Parcelable.Creator<TimerState> CREATOR =

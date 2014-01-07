@@ -21,6 +21,7 @@ import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.widget.TextView;
+import com.acbelter.makesumgame.game.state.TimerState;
 
 public class BlinkedCountDownTimer extends CountDownTimer {
     public static final int CODE_FINISHED = 0;

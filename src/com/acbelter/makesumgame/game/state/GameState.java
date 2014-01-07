@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package com.acbelter.makesumgame.game;
+package com.acbelter.makesumgame.game.state;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.acbelter.makesumgame.game.Level;
 
 public class GameState extends TrainingGameState {
+    public Level level;
     public long score;
     public int sceneNumber;
 
@@ -43,10 +45,10 @@ public class GameState extends TrainingGameState {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeLong(score);
-        dest.writeInt(sceneNumber);
+    public void writeToParcel(Parcel out, int flags) {
+        super.writeToParcel(out, flags);
+        out.writeLong(score);
+        out.writeInt(sceneNumber);
     }
 
     public static final Parcelable.Creator<GameState> CREATOR =

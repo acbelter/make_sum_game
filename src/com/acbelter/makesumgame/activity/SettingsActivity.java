@@ -24,7 +24,7 @@ import android.preference.PreferenceManager;
 import android.widget.RadioButton;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
-import com.acbelter.makesumgame.game.FieldGenerator.Level;
+import com.acbelter.makesumgame.game.Difficulty;
 
 public class SettingsActivity extends Activity {
     public static final String PREF_LEVEL = "level";
@@ -41,11 +41,11 @@ public class SettingsActivity extends Activity {
         mRadioEasy = (RadioButton) findViewById(id.level_easy);
         mRadioMedium = (RadioButton) findViewById(id.level_medium);
         mRadioHard = (RadioButton) findViewById(id.level_hard);
-        selectLevel(Level.valueOf(mPrefs.getString(PREF_LEVEL, Level.EASY.name())));
+        selectLevel(Difficulty.valueOf(mPrefs.getString(PREF_LEVEL, Difficulty.EASY.name())));
     }
 
-    private void selectLevel(Level level) {
-        switch (level) {
+    private void selectLevel(Difficulty difficulty) {
+        switch (difficulty) {
             case EASY: {
                 mRadioEasy.setChecked(true);
                 break;
@@ -69,13 +69,13 @@ public class SettingsActivity extends Activity {
         super.onPause();
         Editor editor = mPrefs.edit();
         if (mRadioEasy.isChecked()) {
-            editor.putString(PREF_LEVEL, Level.EASY.name());
+            editor.putString(PREF_LEVEL, Difficulty.EASY.name());
         }
         if (mRadioMedium.isChecked()) {
-            editor.putString(PREF_LEVEL, Level.MEDIUM.name());
+            editor.putString(PREF_LEVEL, Difficulty.MEDIUM.name());
         }
         if (mRadioHard.isChecked()) {
-            editor.putString(PREF_LEVEL, Level.HARD.name());
+            editor.putString(PREF_LEVEL, Difficulty.HARD.name());
         }
         editor.commit();
     }

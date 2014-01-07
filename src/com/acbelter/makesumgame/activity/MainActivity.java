@@ -24,7 +24,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import com.acbelter.makesumgame.R.layout;
-import com.acbelter.makesumgame.game.FieldGenerator.Level;
+import com.acbelter.makesumgame.game.Difficulty;
 
 public class MainActivity extends Activity {
     @Override
@@ -35,23 +35,19 @@ public class MainActivity extends Activity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.contains(SettingsActivity.PREF_LEVEL)) {
             Editor editor = prefs.edit();
-            editor.putString(SettingsActivity.PREF_LEVEL, Level.EASY.name());
+            editor.putString(SettingsActivity.PREF_LEVEL, Difficulty.EASY.name());
             editor.commit();
         }
     }
 
     public void startGame(View view) {
-        Intent startIntent = new Intent(this, GameActivity.class);
+        Intent startIntent = new Intent(this, SelectLevelActivity.class);
         startActivity(startIntent);
     }
 
     public void startTraining(View view) {
         Intent startIntent = new Intent(this, TrainingGameActivity.class);
         startActivity(startIntent);
-    }
-
-    public void openHighscores(View view) {
-
     }
 
     public void openSettings(View view) {

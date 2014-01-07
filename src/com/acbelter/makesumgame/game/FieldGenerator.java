@@ -25,19 +25,13 @@ import java.util.Random;
 import java.util.Set;
 
 public class FieldGenerator {
-    public enum Level {
-        EASY, // numbers from [1, 50]
-        MEDIUM, // numbers from [50, 99]
-        HARD // numbers from [100, 999]
-    }
-
     private FieldGenerator() {}
 
-    public static int[][] generateNewField(int fieldSize, Level level) {
+    public static int[][] generateNewField(int fieldSize, Difficulty difficulty) {
         int[][] field = new int[fieldSize][fieldSize];
         Set<Integer> generatedNumbers = new HashSet<Integer>();
         Random rnd = new Random(System.nanoTime());
-        switch (level) {
+        switch (difficulty) {
             case EASY: {
                 for (int i = 0; i < fieldSize; i++) {
                     for (int j = 0; j < fieldSize; j++) {

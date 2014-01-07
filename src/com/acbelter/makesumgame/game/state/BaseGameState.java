@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.acbelter.makesumgame.game;
+package com.acbelter.makesumgame.game.state;
 
 import android.os.Parcelable;
 

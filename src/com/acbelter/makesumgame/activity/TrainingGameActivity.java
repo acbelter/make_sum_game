@@ -27,10 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
-import com.acbelter.makesumgame.game.BaseGameState;
+import com.acbelter.makesumgame.game.Difficulty;
 import com.acbelter.makesumgame.game.FieldGenerator;
-import com.acbelter.makesumgame.game.FieldGenerator.Level;
-import com.acbelter.makesumgame.game.TrainingGameState;
+import com.acbelter.makesumgame.game.state.BaseGameState;
+import com.acbelter.makesumgame.game.state.TrainingGameState;
 
 public class TrainingGameActivity extends Activity {
     private static final int FIELD_SIZE = 4;
@@ -56,10 +56,10 @@ public class TrainingGameActivity extends Activity {
         initFieldButtonsListeners();
     }
 
-    private Level loadLevelFromPref() {
+    private Difficulty loadLevelFromPref() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String levelStr = prefs.getString(SettingsActivity.PREF_LEVEL, Level.EASY.name());
-        return Level.valueOf(levelStr);
+        String levelStr = prefs.getString(SettingsActivity.PREF_LEVEL, Difficulty.EASY.name());
+        return Difficulty.valueOf(levelStr);
     }
 
     private void findViews() {
@@ -116,8 +116,8 @@ public class TrainingGameActivity extends Activity {
         }
     }
 
-    private void newGame(Level level) {
-        int[][] field = newField(level);
+    private void newGame(Difficulty difficulty) {
+        int[][] field = newField(difficulty);
         int fullSum = FieldGenerator.getRandomSum(field);
         if (mGameState == null) {
             mGameState = new TrainingGameState(field, 0, fullSum);
@@ -150,8 +150,8 @@ public class TrainingGameActivity extends Activity {
         }
     }
 
-    private int[][] newField(Level level) {
-        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE, level);
+    private int[][] newField(Difficulty difficulty) {
+        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE, difficulty);
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
                 mFieldButtons[i][j].setText(String.valueOf(field[i][j]));

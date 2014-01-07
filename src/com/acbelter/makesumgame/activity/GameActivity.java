@@ -29,9 +29,11 @@ import android.widget.Toast;
 import com.acbelter.makesumgame.BlinkedCountDownTimer;
 import com.acbelter.makesumgame.R.id;
 import com.acbelter.makesumgame.R.layout;
-import com.acbelter.makesumgame.TimerState;
-import com.acbelter.makesumgame.game.*;
-import com.acbelter.makesumgame.game.FieldGenerator.Level;
+import com.acbelter.makesumgame.game.Difficulty;
+import com.acbelter.makesumgame.game.FieldGenerator;
+import com.acbelter.makesumgame.game.state.BaseGameState;
+import com.acbelter.makesumgame.game.state.GameState;
+import com.acbelter.makesumgame.game.state.TimerState;
 
 public class GameActivity extends Activity {
     private static final String KEY_TIMER_STATE =
@@ -82,7 +84,7 @@ public class GameActivity extends Activity {
             }
             mCurrentTimerState = savedInstanceState.getParcelable(KEY_TIMER_STATE);
         } else {
-            newGame(mGameScenario.getScene(0).level);
+            newGame(mGameScenario.getScene(0).mDifficulty);
         }
 
         initFieldButtonsListeners();
@@ -125,8 +127,8 @@ public class GameActivity extends Activity {
         }
     }
 
-    private int[][] newField(Level level) {
-        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE, level);
+    private int[][] newField(Difficulty difficulty) {
+        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE, difficulty);
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
                 mFieldButtons[i][j].setText(String.valueOf(field[i][j]));
@@ -194,7 +196,7 @@ public class GameActivity extends Activity {
                                 endGame();
                             } else {
                                 showMadeSumMessage();
-                                newGame(mGameScenario.getScene(++mGameState.sceneNumber).level);
+                                newGame(mGameScenario.getScene(++mGameState.sceneNumber).mDifficulty);
                             }
                         }
                     }
@@ -210,9 +212,9 @@ public class GameActivity extends Activity {
         mGameOverFlag = true;
     }
 
-    private void newGame(Level level) {
-        Log.d("DEBUG", "Level: " + level.name());
-        int[][] field = newField(level);
+    private void newGame(Difficulty difficulty) {
+        Log.d("DEBUG", "Level: " + difficulty.name());
+        int[][] field = newField(difficulty);
         int fullSum = FieldGenerator.getRandomSum(field);
         if (mGameState == null) {
             mGameState = new GameState(field, 0, fullSum);

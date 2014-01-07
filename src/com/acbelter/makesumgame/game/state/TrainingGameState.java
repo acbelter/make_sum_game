@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.acbelter.makesumgame.game;
+package com.acbelter.makesumgame.game.state;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -64,10 +64,10 @@ public class TrainingGameState extends BaseGameState {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeIntArray(Utils.toOneDimensionArray(fieldNumbers));
-        dest.writeInt(playerSum);
-        dest.writeInt(fullSum);
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeIntArray(Utils.toOneDimensionArray(fieldNumbers));
+        out.writeInt(playerSum);
+        out.writeInt(fullSum);
     }
 
     public static final Parcelable.Creator<TrainingGameState> CREATOR =

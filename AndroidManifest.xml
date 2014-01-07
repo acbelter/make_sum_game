@@ -37,17 +37,17 @@
         </activity>
 
         <activity
-          android:name=".activity.TrainingGameActivity"
-          android:screenOrientation="portrait">
-        </activity>
-
-        <activity
           android:name=".activity.GameActivity"
           android:screenOrientation="portrait">
         </activity>
 
         <activity
-          android:name=".activity.HighscoresActivity"
+          android:name=".activity.SelectLevelActivity"
+          android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+          android:name=".activity.TrainingGameActivity"
           android:screenOrientation="portrait">
         </activity>
 
