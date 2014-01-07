@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<levels>
+    <level
+      id="1"
+      completeScore="1000">
+        <scene
+          id="1"
+          difficulty="easy"
+          timerSeconds="30"
+          undoPenalty="10"
+          madeSumScore="20"/>
+        <scene
+          id="2"
+          difficulty="medium"
+          timerSeconds="30"
+          undoPenalty="20"
+          madeSumScore="30"/>
+        <scene
+          id="3"
+          difficulty="hard"
+          timerSeconds="30"
+          undoPenalty="30"
+          madeSumScore="40"/>
+    </level>
+</levels>
