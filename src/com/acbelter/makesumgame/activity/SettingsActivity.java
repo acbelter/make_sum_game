@@ -22,8 +22,7 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.RadioButton;
-import com.acbelter.makesumgame.R.id;
-import com.acbelter.makesumgame.R.layout;
+import com.acbelter.makesumgame.R;
 import com.acbelter.makesumgame.game.Difficulty;
 
 public class SettingsActivity extends Activity {
@@ -36,11 +35,11 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_settings);
+        setContentView(R.layout.activity_settings);
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mRadioEasy = (RadioButton) findViewById(id.level_easy);
-        mRadioMedium = (RadioButton) findViewById(id.level_medium);
-        mRadioHard = (RadioButton) findViewById(id.level_hard);
+        mRadioEasy = (RadioButton) findViewById(R.id.level_easy);
+        mRadioMedium = (RadioButton) findViewById(R.id.level_medium);
+        mRadioHard = (RadioButton) findViewById(R.id.level_hard);
         selectLevel(Difficulty.valueOf(mPrefs.getString(PREF_LEVEL, Difficulty.EASY.name())));
     }
 

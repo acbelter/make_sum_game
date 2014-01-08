@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Test {
-    public static List<Level> generateTestLevels() {
-        List<Level> levels = new ArrayList<Level>();
+    public static ArrayList<Level> generateTestLevels() {
+        ArrayList<Level> levels = new ArrayList<Level>();
         Level level = new Level(1, 1000);
         List<Scene> scenes = new ArrayList<Scene>();
         scenes.add(new Scene(1, Difficulty.EASY, 30, 10, 20));

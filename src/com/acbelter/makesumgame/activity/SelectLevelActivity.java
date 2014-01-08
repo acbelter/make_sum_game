@@ -17,6 +17,7 @@
 package com.acbelter.makesumgame.activity;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,14 +29,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectLevelActivity extends ListActivity {
+    public static final String KEY_SELECTED_LEVEL =
+            "com.acbelter.makesumgame.KEY_SELECTED_LEVEL";
+    private static final String KEY_LEVELS =
+            "com.acbelter.makesumgame.KEY_LEVELS";
+    private static final int RQ_START_GAME = 0;
+    private ArrayList<Level> mLevels;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        List<Level> levels = Test.generateTestLevels();
+        if (savedInstanceState != null) {
+            mLevels = savedInstanceState.getParcelableArrayList(KEY_LEVELS);
+        } else {
+            mLevels = Test.generateTestLevels();
+        }
 
-        List<LevelItem> levelItems = new ArrayList<LevelItem>(levels.size());
-        for (int i = 0; i < levels.size(); i++) {
-            levelItems.add(new LevelItem(levels.get(i)));
+        List<LevelItem> levelItems = new ArrayList<LevelItem>(mLevels.size());
+        for (int i = 0; i < mLevels.size(); i++) {
+            levelItems.add(new LevelItem(mLevels.get(i)));
         }
 
         final LevelsListAdapter adapter = new LevelsListAdapter(this, levelItems);
@@ -43,8 +55,17 @@ public class SelectLevelActivity extends ListActivity {
         getListView().setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //adapter.getItem(position)
+                Level selectedLevel = adapter.getItem(position).getLevel();
+                Intent startIntent = new Intent(SelectLevelActivity.this, GameActivity.class);
+                startIntent.putExtra(KEY_SELECTED_LEVEL, selectedLevel);
+                startActivityForResult(startIntent, RQ_START_GAME);
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(KEY_LEVELS, mLevels);
     }
 }

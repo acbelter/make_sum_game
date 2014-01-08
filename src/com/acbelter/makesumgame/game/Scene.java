@@ -27,6 +27,26 @@ public class Scene implements Parcelable {
         mMadeSumScore = in.readLong();
     }
 
+    public int getId() {
+        return mId;
+    }
+
+    public Difficulty getDifficulty() {
+        return mDifficulty;
+    }
+
+    public int getTimerSeconds() {
+        return mTimerSeconds;
+    }
+
+    public long getUndoPenalty() {
+        return mUndoPenalty;
+    }
+
+    public long getMadeSumScore() {
+        return mMadeSumScore;
+    }
+
     public static final Parcelable.Creator<Scene> CREATOR =
             new Parcelable.Creator<Scene>() {
 

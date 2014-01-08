@@ -25,8 +25,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.acbelter.makesumgame.R.id;
-import com.acbelter.makesumgame.R.layout;
+import com.acbelter.makesumgame.R;
 import com.acbelter.makesumgame.game.Difficulty;
 import com.acbelter.makesumgame.game.FieldGenerator;
 import com.acbelter.makesumgame.game.state.BaseGameState;
@@ -42,7 +41,7 @@ public class TrainingGameActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_training_game);
+        setContentView(R.layout.activity_training_game);
         findViews();
         if (savedInstanceState != null) {
             mGameState = savedInstanceState.getParcelable(BaseGameState.KEY_GAME_STATE);
@@ -63,29 +62,29 @@ public class TrainingGameActivity extends Activity {
     }
 
     private void findViews() {
-        mPlayerSumView = (TextView) findViewById(id.player_sum);
-        mFullSumView = (TextView) findViewById(id.full_sum);
+        mPlayerSumView = (TextView) findViewById(R.id.player_sum);
+        mFullSumView = (TextView) findViewById(R.id.full_sum);
 
         mFieldButtons = new Button[FIELD_SIZE][FIELD_SIZE];
-        mFieldButtons[0][0] = (Button) findViewById(id.btn_0_0);
-        mFieldButtons[0][1] = (Button) findViewById(id.btn_0_1);
-        mFieldButtons[0][2] = (Button) findViewById(id.btn_0_2);
-        mFieldButtons[0][3] = (Button) findViewById(id.btn_0_3);
+        mFieldButtons[0][0] = (Button) findViewById(R.id.btn_0_0);
+        mFieldButtons[0][1] = (Button) findViewById(R.id.btn_0_1);
+        mFieldButtons[0][2] = (Button) findViewById(R.id.btn_0_2);
+        mFieldButtons[0][3] = (Button) findViewById(R.id.btn_0_3);
 
-        mFieldButtons[1][0] = (Button) findViewById(id.btn_1_0);
-        mFieldButtons[1][1] = (Button) findViewById(id.btn_1_1);
-        mFieldButtons[1][2] = (Button) findViewById(id.btn_1_2);
-        mFieldButtons[1][3] = (Button) findViewById(id.btn_1_3);
+        mFieldButtons[1][0] = (Button) findViewById(R.id.btn_1_0);
+        mFieldButtons[1][1] = (Button) findViewById(R.id.btn_1_1);
+        mFieldButtons[1][2] = (Button) findViewById(R.id.btn_1_2);
+        mFieldButtons[1][3] = (Button) findViewById(R.id.btn_1_3);
 
-        mFieldButtons[2][0] = (Button) findViewById(id.btn_2_0);
-        mFieldButtons[2][1] = (Button) findViewById(id.btn_2_1);
-        mFieldButtons[2][2] = (Button) findViewById(id.btn_2_2);
-        mFieldButtons[2][3] = (Button) findViewById(id.btn_2_3);
+        mFieldButtons[2][0] = (Button) findViewById(R.id.btn_2_0);
+        mFieldButtons[2][1] = (Button) findViewById(R.id.btn_2_1);
+        mFieldButtons[2][2] = (Button) findViewById(R.id.btn_2_2);
+        mFieldButtons[2][3] = (Button) findViewById(R.id.btn_2_3);
 
-        mFieldButtons[3][0] = (Button) findViewById(id.btn_3_0);
-        mFieldButtons[3][1] = (Button) findViewById(id.btn_3_1);
-        mFieldButtons[3][2] = (Button) findViewById(id.btn_3_2);
-        mFieldButtons[3][3] = (Button) findViewById(id.btn_3_3);
+        mFieldButtons[3][0] = (Button) findViewById(R.id.btn_3_0);
+        mFieldButtons[3][1] = (Button) findViewById(R.id.btn_3_1);
+        mFieldButtons[3][2] = (Button) findViewById(R.id.btn_3_2);
+        mFieldButtons[3][3] = (Button) findViewById(R.id.btn_3_3);
     }
 
     private void initFieldButtonsListeners() {

@@ -23,14 +23,14 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import com.acbelter.makesumgame.R.layout;
+import com.acbelter.makesumgame.R;
 import com.acbelter.makesumgame.game.Difficulty;
 
 public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.contains(SettingsActivity.PREF_LEVEL)) {

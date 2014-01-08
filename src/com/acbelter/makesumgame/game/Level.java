@@ -21,8 +21,16 @@ public class Level implements Parcelable {
     private Level(Parcel in) {
         mId = in.readInt();
         mCompleteScore = in.readLong();
-        Scene[] scenes = (Scene[]) in.readParcelableArray(Level.class.getClassLoader());
+        Parcelable[] array = in.readParcelableArray(Scene.class.getClassLoader());
+        Scene[] scenes = Arrays.copyOf(array, array.length, Scene[].class);
         mLevelScenes = Arrays.asList(scenes);
+    }
+
+    public Scene getSceneWithIndex(int index) {
+        if (index < 0 || index > mLevelScenes.size()-1) {
+            return null;
+        }
+        return mLevelScenes.get(index);
     }
 
     public int getId() {
