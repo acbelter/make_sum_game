@@ -4,15 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Scene implements Parcelable {
-    private int mId;
     private Difficulty mDifficulty;
     private int mTimerSeconds;
     private long mUndoPenalty;
     private long mMadeSumScore;
 
-    public Scene(int id, Difficulty difficulty, int timerSeconds, long undoPenalty,
+    public Scene(Difficulty difficulty, int timerSeconds, long undoPenalty,
                  long madeSumScore) {
-        mId = id;
         mDifficulty = difficulty;
         mTimerSeconds = timerSeconds;
         mUndoPenalty = undoPenalty;
@@ -20,15 +18,10 @@ public class Scene implements Parcelable {
     }
 
     private Scene(Parcel in) {
-        mId = in.readInt();
         mDifficulty = Difficulty.valueOf(in.readString());
         mTimerSeconds = in.readInt();
         mUndoPenalty = in.readLong();
         mMadeSumScore = in.readLong();
-    }
-
-    public int getId() {
-        return mId;
     }
 
     public Difficulty getDifficulty() {
@@ -68,7 +61,6 @@ public class Scene implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(mId);
         out.writeString(mDifficulty.name());
         out.writeInt(mTimerSeconds);
         out.writeLong(mUndoPenalty);

@@ -16,6 +16,15 @@
 
 package com.acbelter.makesumgame;
 
+import android.content.res.Resources;
+import android.util.Log;
+import com.acbelter.makesumgame.game.Level;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class Utils {
     public static int[] toOneDimensionArray(int[][] array) {
         int size = getDimension(array);
@@ -56,5 +65,29 @@ public class Utils {
             }
         }
         return size;
+    }
+
+    // TODO Write this method
+    public static ArrayList<Level> getLevelsFromRes(Resources res, int levelsXmlId) {
+        ArrayList<Level> levels = new ArrayList<Level>();
+        XmlPullParser xpp = res.getXml(levelsXmlId);
+        try {
+            while (xpp.getEventType() != XmlPullParser.END_DOCUMENT) {
+                switch (xpp.getEventType()) {
+                    case XmlPullParser.START_TAG: {
+                        break;
+                    }
+                    case XmlPullParser.END_TAG: {
+                        break;
+                    }
+                }
+                xpp.next();
+            }
+        } catch (XmlPullParserException e) {
+            Log.e("DEBUG", "Can't parse levels from resources: XmlPullParserException");
+        } catch (IOException e) {
+            Log.e("DEBUG", "Can't parse levels from resources: IOException");
+        }
+        return null;
     }
 }

@@ -18,7 +18,10 @@ package com.acbelter.makesumgame.activity;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -35,37 +38,100 @@ public class SelectLevelActivity extends ListActivity {
             "com.acbelter.makesumgame.KEY_LEVELS";
     private static final int RQ_START_GAME = 0;
     private ArrayList<Level> mLevels;
+    private LevelsListAdapter mAdapter;
+
+    private static final String LEVEL_PREFIX = "level_";
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (savedInstanceState != null) {
             mLevels = savedInstanceState.getParcelableArrayList(KEY_LEVELS);
         } else {
             mLevels = Test.generateTestLevels();
+            // mLevels = Utils.getLevelsFromRes(getResources(), R.xml.levels);
+        }
+
+        // Open first level
+        if (!mPrefs.contains(LEVEL_PREFIX + mLevels.get(0).getId())) {
+            mPrefs.edit().putLong(LEVEL_PREFIX + mLevels.get(0).getId(), 0).commit();
         }
 
         List<LevelItem> levelItems = new ArrayList<LevelItem>(mLevels.size());
         for (int i = 0; i < mLevels.size(); i++) {
-            levelItems.add(new LevelItem(mLevels.get(i)));
+            LevelItem newItem = new LevelItem(mLevels.get(i));
+            if (mPrefs.contains(LEVEL_PREFIX + mLevels.get(i).getId())) {
+                newItem.levelLock = false;
+                newItem.maxScore = mPrefs.getLong(LEVEL_PREFIX + mLevels.get(i).getId(), 0);
+            }
+            levelItems.add(newItem);
         }
 
-        final LevelsListAdapter adapter = new LevelsListAdapter(this, levelItems);
-        setListAdapter(adapter);
+        mAdapter = new LevelsListAdapter(this, levelItems);
+        setListAdapter(mAdapter);
         getListView().setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Level selectedLevel = adapter.getItem(position).getLevel();
-                Intent startIntent = new Intent(SelectLevelActivity.this, GameActivity.class);
-                startIntent.putExtra(KEY_SELECTED_LEVEL, selectedLevel);
-                startActivityForResult(startIntent, RQ_START_GAME);
+                LevelItem selectedItem = mAdapter.getItem(position);
+                if (!selectedItem.levelLock) {
+                    Level selectedLevel = selectedItem.getLevel();
+                    Intent startIntent = new Intent(SelectLevelActivity.this, GameActivity.class);
+                    startIntent.putExtra(KEY_SELECTED_LEVEL, selectedLevel);
+                    startActivityForResult(startIntent, RQ_START_GAME);
+                }
             }
         });
+    }
+
+    private int getLevelPos(Level level) {
+        for (int i = 0; i < mLevels.size(); i++) {
+            if (level.getId() == mLevels.get(i).getId()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Editor editor = mPrefs.edit();
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            if (!mAdapter.getItem(i).levelLock) {
+                int id = mAdapter.getItem(i).getLevel().getId();
+                editor.putLong(LEVEL_PREFIX + id, mAdapter.getItem(i).maxScore);
+            }
+        }
+        editor.commit();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(KEY_LEVELS, mLevels);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == RQ_START_GAME && data != null) {
+                Level level = data.getParcelableExtra(GameActivity.KEY_LEVEL);
+                long score = data.getLongExtra(GameActivity.KEY_SCORE, 0);
+                int pos = getLevelPos(level);
+                LevelItem levelItem = mAdapter.getItem(pos);
+                if (levelItem.maxScore < score) {
+                    levelItem.maxScore = score;
+                }
+                // Unlock next level
+                if (score >= level.getCompleteScore() &&
+                        pos < mAdapter.getCount()-1 &&
+                        mAdapter.getItem(pos+1).levelLock) {
+                    mAdapter.getItem(pos+1).levelLock = false;
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        }
     }
 }

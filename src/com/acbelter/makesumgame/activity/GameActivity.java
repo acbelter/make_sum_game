@@ -17,6 +17,7 @@
 package com.acbelter.makesumgame.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,12 +27,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.acbelter.makesumgame.BlinkedCountDownTimer;
 import com.acbelter.makesumgame.R;
-import com.acbelter.makesumgame.game.Difficulty;
-import com.acbelter.makesumgame.game.FieldGenerator;
-import com.acbelter.makesumgame.game.Level;
-import com.acbelter.makesumgame.game.Scene;
+import com.acbelter.makesumgame.game.*;
 import com.acbelter.makesumgame.game.state.BaseGameState;
 import com.acbelter.makesumgame.game.state.GameState;
 import com.acbelter.makesumgame.game.state.TimerState;
@@ -39,8 +36,14 @@ import com.acbelter.makesumgame.game.state.TimerState;
 public class GameActivity extends Activity {
     private static final String KEY_GAME_OVER_FLAG =
             "com.acbelter.makesumgame.KEY_GAME_OVER_FLAG";
+    public static final String KEY_LEVEL =
+            "com.acbelter.makesumgame.KEY_LEVEL";
+    public static final String KEY_SCORE =
+            "com.acbelter.makesumgame.KEY_SCORE";
     private static final int FIELD_SIZE = 4;
     private static final long TIME_BLINK = 10000L;
+    private static final int LEVEL_FINISHED = 0;
+    private static final int LEVEL_NOT_FINISHED = 1;
 
     private Button[][] mFieldButtons;
     private TextView mPlayerSumView;
@@ -67,8 +70,8 @@ public class GameActivity extends Activity {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == BlinkedCountDownTimer.CODE_FINISHED) {
-                    showLoseMessage();
-                    endGame();
+                    showLevelNotFinishedMessage();
+                    finishLevel(LEVEL_NOT_FINISHED);
                 }
             }
         };
@@ -87,7 +90,7 @@ public class GameActivity extends Activity {
             }
         } else {
             mLevel = getIntent().getParcelableExtra(SelectLevelActivity.KEY_SELECTED_LEVEL);
-            newGame(mLevel, 0);
+            newScene(mLevel, 0);
         }
 
         initFieldButtonsListeners();
@@ -192,12 +195,12 @@ public class GameActivity extends Activity {
                                     mLevel.getSceneWithIndex(sceneIndex).getMadeSumScore();
                             mScoreView.setText(mGameState.getScoreValue());
                             if (sceneIndex == mLevel.getLevelScenes().size()-1) {
-                                showGameOverMessage();
-                                endGame();
+                                showLevelFinishedMessage();
+                                finishLevel(LEVEL_FINISHED);
                             } else {
                                 showMadeSumMessage();
                                 mGameState.setSceneIndex(++sceneIndex);
-                                newGame(mLevel, sceneIndex);
+                                newScene(mLevel, sceneIndex);
                             }
                         }
                     }
@@ -206,14 +209,23 @@ public class GameActivity extends Activity {
         }
     }
 
-    private void endGame() {
+    private void finishLevel(int resultKey) {
         mTimer.cancel();
         mTimerView.setText("00:00");
         setFieldEnabled(false);
         mGameOverFlag = true;
+        if (resultKey == LEVEL_FINISHED) {
+            Intent intent = new Intent();
+            intent.putExtra(KEY_LEVEL, mLevel);
+            intent.putExtra(KEY_SCORE, mGameState.score);
+            setResult(RESULT_OK, intent);
+        } else {
+            setResult(RESULT_OK);
+        }
+        finish();
     }
 
-    private boolean newGame(Level level, int sceneIndex) {
+    private boolean newScene(Level level, int sceneIndex) {
         Log.d("DEBUG", "Level: " + level.getId() + ". Scene: " + sceneIndex);
         Scene scene = level.getSceneWithIndex(sceneIndex);
         if (scene == null) {
@@ -254,8 +266,8 @@ public class GameActivity extends Activity {
         return true;
     }
 
-    private void showGameOverMessage() {
-        Toast.makeText(this, "Game over! Your score is " + mGameState.score + ".",
+    private void showLevelFinishedMessage() {
+        Toast.makeText(this, "Level is finished! Your score is " + mGameState.score + ".",
                 Toast.LENGTH_LONG).show();
     }
 
@@ -264,8 +276,8 @@ public class GameActivity extends Activity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    private void showLoseMessage() {
-        Toast.makeText(this, "You lose!", Toast.LENGTH_LONG).show();
+    private void showLevelNotFinishedMessage() {
+        Toast.makeText(this, "Level isn't finished!", Toast.LENGTH_LONG).show();
     }
 
     private void setFieldEnabled(boolean enabled) {
