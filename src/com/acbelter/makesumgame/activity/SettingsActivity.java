@@ -21,12 +21,16 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.RadioButton;
+import android.widget.Toast;
 import com.acbelter.makesumgame.R;
 import com.acbelter.makesumgame.game.Difficulty;
 
 public class SettingsActivity extends Activity {
-    public static final String PREF_LEVEL = "level";
+    public static final String PREF_TRAINING_DIFFICULTY = "training_difficulty";
+    public static final String LEVEL_PREFIX = "level_";
+
     private SharedPreferences mPrefs;
     private RadioButton mRadioEasy;
     private RadioButton mRadioMedium;
@@ -40,7 +44,8 @@ public class SettingsActivity extends Activity {
         mRadioEasy = (RadioButton) findViewById(R.id.level_easy);
         mRadioMedium = (RadioButton) findViewById(R.id.level_medium);
         mRadioHard = (RadioButton) findViewById(R.id.level_hard);
-        selectLevel(Difficulty.valueOf(mPrefs.getString(PREF_LEVEL, Difficulty.EASY.name())));
+        selectLevel(Difficulty.valueOf(mPrefs.getString(PREF_TRAINING_DIFFICULTY,
+                Difficulty.EASY.name())));
     }
 
     private void selectLevel(Difficulty difficulty) {
@@ -58,9 +63,21 @@ public class SettingsActivity extends Activity {
                 break;
             }
             default: {
-                throw new IllegalArgumentException("Unsupported level");
+                throw new IllegalArgumentException("Unsupported difficulty");
             }
         }
+    }
+
+    public void resetGameProgress(View view) {
+        Editor editor = mPrefs.edit();
+        for (String key : mPrefs.getAll().keySet()) {
+            if (key.startsWith(LEVEL_PREFIX)) {
+                editor.remove(key);
+            }
+        }
+        editor.commit();
+        Toast.makeText(this, getResources().getString(R.string.reset_progress_msg),
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -68,13 +85,13 @@ public class SettingsActivity extends Activity {
         super.onPause();
         Editor editor = mPrefs.edit();
         if (mRadioEasy.isChecked()) {
-            editor.putString(PREF_LEVEL, Difficulty.EASY.name());
+            editor.putString(PREF_TRAINING_DIFFICULTY, Difficulty.EASY.name());
         }
         if (mRadioMedium.isChecked()) {
-            editor.putString(PREF_LEVEL, Difficulty.MEDIUM.name());
+            editor.putString(PREF_TRAINING_DIFFICULTY, Difficulty.MEDIUM.name());
         }
         if (mRadioHard.isChecked()) {
-            editor.putString(PREF_LEVEL, Difficulty.HARD.name());
+            editor.putString(PREF_TRAINING_DIFFICULTY, Difficulty.HARD.name());
         }
         editor.commit();
     }

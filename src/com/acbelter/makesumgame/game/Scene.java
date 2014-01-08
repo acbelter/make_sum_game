@@ -9,6 +9,8 @@ public class Scene implements Parcelable {
     private long mUndoPenalty;
     private long mMadeSumScore;
 
+    public Scene() {}
+
     public Scene(Difficulty difficulty, int timerSeconds, long undoPenalty,
                  long madeSumScore) {
         mDifficulty = difficulty;
@@ -28,8 +30,8 @@ public class Scene implements Parcelable {
         return mDifficulty;
     }
 
-    public int getTimerSeconds() {
-        return mTimerSeconds;
+    public int getTimerMillis() {
+        return mTimerSeconds*1000;
     }
 
     public long getUndoPenalty() {
@@ -38,6 +40,26 @@ public class Scene implements Parcelable {
 
     public long getMadeSumScore() {
         return mMadeSumScore;
+    }
+
+    public void setDifficulty(String difficulty) {
+        mDifficulty = Difficulty.valueOf(difficulty.toUpperCase());
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        mDifficulty = difficulty;
+    }
+
+    public void setTimerSeconds(int timerSeconds) {
+        mTimerSeconds = timerSeconds;
+    }
+
+    public void setUndoPenalty(long undoPenalty) {
+        mUndoPenalty = undoPenalty;
+    }
+
+    public void setMadeSumScore(long madeSumScore) {
+        mMadeSumScore = madeSumScore;
     }
 
     public static final Parcelable.Creator<Scene> CREATOR =
@@ -65,5 +87,22 @@ public class Scene implements Parcelable {
         out.writeInt(mTimerSeconds);
         out.writeLong(mUndoPenalty);
         out.writeLong(mMadeSumScore);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("difficulty: ");
+        builder.append(mDifficulty.name());
+        builder.append("; ");
+        builder.append("timer_seconds: ");
+        builder.append(mTimerSeconds);
+        builder.append("; ");
+        builder.append("undo_penalty: ");
+        builder.append(mUndoPenalty);
+        builder.append("; ");
+        builder.append("made_sum_score: ");
+        builder.append(mMadeSumScore);
+        return builder.toString();
     }
 }

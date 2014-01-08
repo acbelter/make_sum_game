@@ -3,21 +3,20 @@
 <levels>
     <level
       id="1"
-      completeScore="1000">
+      completeScore="10">
         <scene
           difficulty="easy"
-          timerSeconds="30"
-          undoPenalty="10"
-          madeSumScore="20"/>
-        <scene
-          difficulty="medium"
-          timerSeconds="30"
-          undoPenalty="20"
+          timerSeconds="31"
+          undoPenalty="1"
           madeSumScore="30"/>
+    </level>
+    <level
+      id="2"
+      completeScore="10">
         <scene
-          difficulty="hard"
-          timerSeconds="30"
-          undoPenalty="30"
-          madeSumScore="40"/>
+          difficulty="easy"
+          timerSeconds="41"
+          undoPenalty="1"
+          madeSumScore="50"/>
     </level>
 </levels>

@@ -12,6 +12,10 @@ public class Level implements Parcelable {
     private long mCompleteScore;
     private List<Scene> mLevelScenes;
 
+    public Level() {
+        mLevelScenes = new ArrayList<Scene>();
+    }
+
     public Level(int id, long completeScore) {
         mId = id;
         mCompleteScore = completeScore;
@@ -57,6 +61,10 @@ public class Level implements Parcelable {
         mLevelScenes = levelScenes;
     }
 
+    public void addScene(Scene scene) {
+        mLevelScenes.add(scene);
+    }
+
     public static final Parcelable.Creator<Level> CREATOR =
             new Parcelable.Creator<Level>() {
 
@@ -82,5 +90,22 @@ public class Level implements Parcelable {
         out.writeLong(mCompleteScore);
         Scene[] array = new Scene[mLevelScenes.size()];
         out.writeParcelableArray(mLevelScenes.toArray(array), flags);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("level_id: ");
+        builder.append(mId);
+        builder.append("; ");
+        builder.append("level_size: ");
+        builder.append(mLevelScenes.size());
+        builder.append("\n");
+        for (int i = 0; i < mLevelScenes.size(); i++) {
+            builder.append("\t");
+            builder.append(mLevelScenes.get(i).toString());
+            builder.append("\n");
+        }
+        return builder.toString();
     }
 }

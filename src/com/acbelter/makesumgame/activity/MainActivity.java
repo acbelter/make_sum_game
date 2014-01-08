@@ -33,9 +33,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.contains(SettingsActivity.PREF_LEVEL)) {
+        if (!prefs.contains(SettingsActivity.PREF_TRAINING_DIFFICULTY)) {
             Editor editor = prefs.edit();
-            editor.putString(SettingsActivity.PREF_LEVEL, Difficulty.EASY.name());
+            editor.putString(SettingsActivity.PREF_TRAINING_DIFFICULTY, Difficulty.EASY.name());
             editor.commit();
         }
     }

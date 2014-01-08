@@ -57,7 +57,7 @@ public class TrainingGameActivity extends Activity {
 
     private Difficulty loadLevelFromPref() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String levelStr = prefs.getString(SettingsActivity.PREF_LEVEL, Difficulty.EASY.name());
+        String levelStr = prefs.getString(SettingsActivity.PREF_TRAINING_DIFFICULTY, Difficulty.EASY.name());
         return Difficulty.valueOf(levelStr);
     }
 

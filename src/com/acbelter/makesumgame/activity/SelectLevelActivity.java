@@ -22,10 +22,12 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import com.acbelter.makesumgame.Test;
+import com.acbelter.makesumgame.LevelsParser;
+import com.acbelter.makesumgame.R;
 import com.acbelter.makesumgame.game.Level;
 
 import java.util.ArrayList;
@@ -40,7 +42,6 @@ public class SelectLevelActivity extends ListActivity {
     private ArrayList<Level> mLevels;
     private LevelsListAdapter mAdapter;
 
-    private static final String LEVEL_PREFIX = "level_";
     private SharedPreferences mPrefs;
 
     @Override
@@ -50,21 +51,26 @@ public class SelectLevelActivity extends ListActivity {
         if (savedInstanceState != null) {
             mLevels = savedInstanceState.getParcelableArrayList(KEY_LEVELS);
         } else {
-            mLevels = Test.generateTestLevels();
-            // mLevels = Utils.getLevelsFromRes(getResources(), R.xml.levels);
+            LevelsParser parser = new LevelsParser();
+            mLevels = parser.getLevelsFromRes(getResources(), R.xml.levels);
+            for (int i = 0; i < mLevels.size(); i++) {
+                Log.d("DEBUG", mLevels.get(i).toString());
+            }
         }
 
         // Open first level
-        if (!mPrefs.contains(LEVEL_PREFIX + mLevels.get(0).getId())) {
-            mPrefs.edit().putLong(LEVEL_PREFIX + mLevels.get(0).getId(), 0).commit();
+        if (!mPrefs.contains(SettingsActivity.LEVEL_PREFIX + mLevels.get(0).getId())) {
+            mPrefs.edit().putLong(SettingsActivity.LEVEL_PREFIX + mLevels.get(0).getId(), 0)
+                    .commit();
         }
 
         List<LevelItem> levelItems = new ArrayList<LevelItem>(mLevels.size());
         for (int i = 0; i < mLevels.size(); i++) {
             LevelItem newItem = new LevelItem(mLevels.get(i));
-            if (mPrefs.contains(LEVEL_PREFIX + mLevels.get(i).getId())) {
+            if (mPrefs.contains(SettingsActivity.LEVEL_PREFIX + mLevels.get(i).getId())) {
                 newItem.levelLock = false;
-                newItem.maxScore = mPrefs.getLong(LEVEL_PREFIX + mLevels.get(i).getId(), 0);
+                newItem.maxScore = mPrefs.getLong(SettingsActivity.LEVEL_PREFIX +
+                        mLevels.get(i).getId(), 0);
             }
             levelItems.add(newItem);
         }
@@ -101,7 +107,7 @@ public class SelectLevelActivity extends ListActivity {
         for (int i = 0; i < mAdapter.getCount(); i++) {
             if (!mAdapter.getItem(i).levelLock) {
                 int id = mAdapter.getItem(i).getLevel().getId();
-                editor.putLong(LEVEL_PREFIX + id, mAdapter.getItem(i).maxScore);
+                editor.putLong(SettingsActivity.LEVEL_PREFIX + id, mAdapter.getItem(i).maxScore);
             }
         }
         editor.commit();

@@ -11,6 +11,7 @@ public class LevelItem {
     public LevelItem(Level level) {
         mLevel = level;
         levelNumber = level.getId();
+        levelLock = true;
     }
 
     public Level getLevel() {

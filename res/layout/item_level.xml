@@ -21,8 +21,8 @@
               android:layout_height="wrap_content"
               android:layout_marginTop="2dp"
               android:layout_marginBottom="2dp"
-              android:layout_marginLeft="8dp"
-              android:layout_marginRight="8dp">
+              android:layout_marginLeft="16dp"
+              android:layout_marginRight="16dp">
 
     <TextView
       android:id="@+id/level_label"
@@ -49,5 +49,6 @@
       android:id="@+id/lock_image"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:src="@drawable/ic_lock_48"/>
+      android:layout_gravity="center_vertical"
+      android:src="@drawable/ic_lock"/>
 </LinearLayout>

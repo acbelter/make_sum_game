@@ -70,7 +70,7 @@ public class GameActivity extends Activity {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == BlinkedCountDownTimer.CODE_FINISHED) {
-                    showLevelNotFinishedMessage();
+                    showLevelNotCompleteMessage();
                     finishLevel(LEVEL_NOT_FINISHED);
                 }
             }
@@ -159,7 +159,7 @@ public class GameActivity extends Activity {
         } else if (!mGameOverFlag) {
             int sceneIndex = mGameState.getSceneIndex();
             mTimer = new BlinkedCountDownTimer(mTimerView,
-                    mLevel.getSceneWithIndex(sceneIndex).getTimerSeconds()*1000,
+                    mLevel.getSceneWithIndex(sceneIndex).getTimerMillis(),
                     TIME_BLINK, mTimerHandler);
             mTimer.start();
         }
@@ -195,7 +195,7 @@ public class GameActivity extends Activity {
                                     mLevel.getSceneWithIndex(sceneIndex).getMadeSumScore();
                             mScoreView.setText(mGameState.getScoreValue());
                             if (sceneIndex == mLevel.getLevelScenes().size()-1) {
-                                showLevelFinishedMessage();
+                                showLevelCompleteMessage();
                                 finishLevel(LEVEL_FINISHED);
                             } else {
                                 showMadeSumMessage();
@@ -226,7 +226,7 @@ public class GameActivity extends Activity {
     }
 
     private boolean newScene(Level level, int sceneIndex) {
-        Log.d("DEBUG", "Level: " + level.getId() + ". Scene: " + sceneIndex);
+        Log.d("DEBUG", "Level: " + level.getId() + ". Scene index: " + sceneIndex);
         Scene scene = level.getSceneWithIndex(sceneIndex);
         if (scene == null) {
             return false;
@@ -259,25 +259,26 @@ public class GameActivity extends Activity {
             mTimerView.setTextColor(mTimer.getDefaultTimerViewColor());
             int index = mGameState.getSceneIndex();
             mTimer = new BlinkedCountDownTimer(mTimerView,
-                    mLevel.getSceneWithIndex(index).getTimerSeconds()*1000,
+                    mLevel.getSceneWithIndex(index).getTimerMillis(),
                     TIME_BLINK, mTimerHandler);
             mTimer.start();
         }
         return true;
     }
 
-    private void showLevelFinishedMessage() {
-        Toast.makeText(this, "Level is finished! Your score is " + mGameState.score + ".",
-                Toast.LENGTH_LONG).show();
-    }
-
     private void showMadeSumMessage() {
-        Toast.makeText(this, "Made sum " + mGameState.getFullSumValue() + "!",
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.made_sum_msg)
+                + " " + mGameState.getFullSumValue() + "!", Toast.LENGTH_SHORT).show();
     }
 
-    private void showLevelNotFinishedMessage() {
-        Toast.makeText(this, "Level isn't finished!", Toast.LENGTH_LONG).show();
+    private void showLevelCompleteMessage() {
+        Toast.makeText(this, getResources().getString(R.string.level_complete_msg)
+                + " " + mGameState.score + ".", Toast.LENGTH_LONG).show();
+    }
+
+    private void showLevelNotCompleteMessage() {
+        Toast.makeText(this, getResources().getString(R.string.level_not_complete_msg),
+                Toast.LENGTH_LONG).show();
     }
 
     private void setFieldEnabled(boolean enabled) {
