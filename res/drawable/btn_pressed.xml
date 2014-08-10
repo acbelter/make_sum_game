@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
  ~ Copyright 2014 acbelter
  ~
@@ -15,12 +15,22 @@
  ~ limitations under the License.
 -->
 
-<resources>
-    <dimen name="menu_btn_margin">60dp</dimen>
-    <dimen name="btn_size">56dp</dimen>
-    <dimen name="btn_margin">2dp</dimen>
-    <dimen name="big_size">32sp</dimen>
-    <dimen name="medium_size">24sp</dimen>
-    <dimen name="btn_text_size">24sp</dimen>
-    <dimen name="field_btn_text_size">24sp</dimen>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+  <corners android:radius="12dp"/>
+
+  <gradient
+      android:angle="270"
+      android:endColor="@color/button_pressed_color_end"
+      android:startColor="@color/button_pressed_color_start"
+      android:type="linear"/>
+
+  <padding
+      android:top="12dp"
+      android:bottom="12dp"
+      android:left="8dp"
+      android:right="8dp"/>
+
+  <stroke
+      android:width="2dp"
+      android:color="#52B10C"/>
+</shape>

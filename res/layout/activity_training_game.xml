@@ -49,6 +49,6 @@
           android:text="100"/>
     </LinearLayout>
 
-    <include layout="@layout/field"/>
+    <include layout="@layout/game_field"/>
 
 </LinearLayout>

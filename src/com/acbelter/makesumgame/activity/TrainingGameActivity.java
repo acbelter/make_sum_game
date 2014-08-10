@@ -27,7 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.acbelter.makesumgame.R;
 import com.acbelter.makesumgame.game.Difficulty;
-import com.acbelter.makesumgame.game.FieldGenerator;
+import com.acbelter.makesumgame.game.GameFieldGenerator;
 import com.acbelter.makesumgame.game.state.BaseGameState;
 import com.acbelter.makesumgame.game.state.TrainingGameState;
 
@@ -117,7 +117,7 @@ public class TrainingGameActivity extends Activity {
 
     private void newGame(Difficulty difficulty) {
         int[][] field = newField(difficulty);
-        int fullSum = FieldGenerator.getRandomSum(field);
+        int fullSum = GameFieldGenerator.getRandomSum(field);
         if (mGameState == null) {
             mGameState = new TrainingGameState(field, 0, fullSum);
         } else {
@@ -150,7 +150,7 @@ public class TrainingGameActivity extends Activity {
     }
 
     private int[][] newField(Difficulty difficulty) {
-        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE, difficulty);
+        int[][] field = GameFieldGenerator.generateNewField(FIELD_SIZE, difficulty);
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
                 mFieldButtons[i][j].setText(String.valueOf(field[i][j]));

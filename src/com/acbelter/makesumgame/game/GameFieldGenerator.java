@@ -24,8 +24,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class FieldGenerator {
-    private FieldGenerator() {}
+public class GameFieldGenerator {
+    private GameFieldGenerator() {}
 
     public static int[][] generateNewField(int fieldSize, Difficulty difficulty) {
         int[][] field = new int[fieldSize][fieldSize];
@@ -121,7 +121,9 @@ public class FieldGenerator {
             break;
         }
 
-        Log.d("DEBUG", "Sum " + sum + " : " + Arrays.toString(numbers));
+        if (Utils.DEBUG_MODE) {
+            Log.d(Utils.DEBUG_TAG, "Sum " + sum + " : " + Arrays.toString(numbers));
+        }
         return sum;
     }
 }

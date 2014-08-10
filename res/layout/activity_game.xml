@@ -16,6 +16,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -36,7 +37,7 @@
           android:gravity="left"
           android:textSize="@dimen/big_size"
           android:textColor="@color/player_sum_color"
-          android:text="50"/>
+          tools:text="50"/>
 
         <TextView
           android:id="@+id/full_sum"
@@ -46,7 +47,7 @@
           android:gravity="right"
           android:textSize="@dimen/big_size"
           android:textColor="@color/full_sum_color"
-          android:text="100"/>
+          tools:text="100"/>
     </LinearLayout>
 
     <LinearLayout
@@ -64,7 +65,7 @@
         android:layout_weight="1"
         android:gravity="left"
         android:textSize="@dimen/big_size"
-        android:text="00:00"/>
+        tools:text="00:00"/>
 
         <TextView
           android:id="@+id/score"
@@ -73,9 +74,9 @@
           android:layout_weight="1"
           android:gravity="right"
           android:textSize="@dimen/big_size"
-          android:text="0"/>
+          tools:text="0"/>
     </LinearLayout>
 
-    <include layout="@layout/field"/>
+    <include layout="@layout/game_field"/>
 
 </LinearLayout>

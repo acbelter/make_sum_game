@@ -28,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import com.acbelter.makesumgame.LevelsParser;
 import com.acbelter.makesumgame.R;
+import com.acbelter.makesumgame.Utils;
 import com.acbelter.makesumgame.game.Level;
 
 import java.util.ArrayList;
@@ -53,8 +54,10 @@ public class SelectLevelActivity extends ListActivity {
         } else {
             LevelsParser parser = new LevelsParser();
             mLevels = parser.getLevelsFromRes(getResources(), R.xml.levels);
-            for (int i = 0; i < mLevels.size(); i++) {
-                Log.d("DEBUG", mLevels.get(i).toString());
+            if (Utils.DEBUG_MODE) {
+                for (int i = 0; i < mLevels.size(); i++) {
+                    Log.d(Utils.DEBUG_TAG, mLevels.get(i).toString());
+                }
             }
         }
 

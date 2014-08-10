@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.acbelter.makesumgame.R;
+import com.acbelter.makesumgame.Utils;
 import com.acbelter.makesumgame.game.*;
 import com.acbelter.makesumgame.game.state.BaseGameState;
 import com.acbelter.makesumgame.game.state.GameState;
@@ -128,7 +129,7 @@ public class GameActivity extends Activity {
     }
 
     private int[][] newField(Difficulty difficulty) {
-        int[][] field = FieldGenerator.generateNewField(FIELD_SIZE, difficulty);
+        int[][] field = GameFieldGenerator.generateNewField(FIELD_SIZE, difficulty);
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
                 mFieldButtons[i][j].setText(String.valueOf(field[i][j]));
@@ -149,7 +150,6 @@ public class GameActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        //setFieldEmpty(false);
         TimerState timerState = mGameState.getTimerState();
         if (timerState != null) {
             mTimer = new BlinkedCountDownTimer(mTimerView,
@@ -226,14 +226,17 @@ public class GameActivity extends Activity {
     }
 
     private boolean newScene(Level level, int sceneIndex) {
-        Log.d("DEBUG", "Level: " + level.getId() + ". Scene index: " + sceneIndex);
+        if (Utils.DEBUG_MODE) {
+            Log.d(Utils.DEBUG_TAG, "Level: " + level.getId() + ". Scene index: " + sceneIndex);
+        }
+
         Scene scene = level.getSceneWithIndex(sceneIndex);
         if (scene == null) {
             return false;
         }
 
         int[][] field = newField(scene.getDifficulty());
-        int fullSum = FieldGenerator.getRandomSum(field);
+        int fullSum = GameFieldGenerator.getRandomSum(field);
         if (mGameState == null) {
             mGameState = new GameState(field, 0, fullSum, mLevel, sceneIndex);
         } else {
@@ -289,17 +292,21 @@ public class GameActivity extends Activity {
         }
     }
 
-/*    private void setFieldEmpty(boolean empty) {
-        for (int i = 0; i < FIELD_SIZE; i++) {
-            for (int j = 0; j < FIELD_SIZE; j++) {
-                if (empty) {
-                    mFieldButtons[i][j].setText("");
-                } else {
-                    mFieldButtons[i][j].setText(mGameState.getFieldValue(i, j));
-                }
-            }
-        }
-    }*/
+//    private void setFieldEmpty(boolean empty) {
+//        if (Utils.DEBUG_MODE) {
+//            Log.d(Utils.DEBUG_TAG, "Set game_field empty: " + empty);
+//        }
+//
+//        for (int i = 0; i < FIELD_SIZE; i++) {
+//            for (int j = 0; j < FIELD_SIZE; j++) {
+//                if (empty) {
+//                    mFieldButtons[i][j].setText("");
+//                } else {
+//                    mFieldButtons[i][j].setText(mGameState.getFieldValue(i, j));
+//                }
+//            }
+//        }
+//    }
 
     @Override
     protected void onDestroy() {
@@ -309,16 +316,9 @@ public class GameActivity extends Activity {
         }
     }
 
-/*    @Override
-    protected void onPause() {
-        super.onPause();
-        setFieldEmpty(true);
-    }*/
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //setFieldEmpty(true);
         if (!mGameOverFlag) {
             mGameState.setTimerState(mTimer.getCurrentState());
         }

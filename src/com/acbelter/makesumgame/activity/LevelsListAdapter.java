@@ -48,6 +48,8 @@ public class LevelsListAdapter extends ArrayAdapter<LevelItem> {
         viewHolder.maxScore.setText(Long.toString(levelItem.maxScore));
         if (!levelItem.levelLock) {
             viewHolder.lockImage.setVisibility(ImageView.INVISIBLE);
+        } else {
+            viewHolder.lockImage.setVisibility(ImageView.VISIBLE);
         }
         return convertView;
     }

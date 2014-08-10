@@ -17,6 +17,9 @@
 package com.acbelter.makesumgame;
 
 public class Utils {
+    public static final boolean DEBUG_MODE = true;
+    public static final String DEBUG_TAG = "MSG_DEBUG";
+
     public static int[] toOneDimensionArray(int[][] array) {
         int size = getDimension(array);
         if (size == -1) {

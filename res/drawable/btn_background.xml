@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
  ~ Copyright 2014 acbelter
  ~
@@ -15,12 +15,15 @@
  ~ limitations under the License.
 -->
 
-<resources>
-    <dimen name="menu_btn_margin">60dp</dimen>
-    <dimen name="btn_size">56dp</dimen>
-    <dimen name="btn_margin">2dp</dimen>
-    <dimen name="big_size">32sp</dimen>
-    <dimen name="medium_size">24sp</dimen>
-    <dimen name="btn_text_size">24sp</dimen>
-    <dimen name="field_btn_text_size">24sp</dimen>
-</resources>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:drawable="@drawable/btn_focused"
+        android:state_focused="true"/>
+
+  <item android:drawable="@drawable/btn_pressed"
+        android:state_pressed="true"/>
+
+  <item android:drawable="@drawable/btn_selected"
+        android:state_selected="true"/>
+
+  <item android:drawable="@drawable/btn_normal"/>
+</selector>
