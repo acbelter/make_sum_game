@@ -16,7 +16,7 @@
 
 package com.acbelter.makesumgame.activity;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import com.acbelter.makesumgame.LevelsParser;
 import com.acbelter.makesumgame.R;
 import com.acbelter.makesumgame.Utils;
@@ -34,20 +35,24 @@ import com.acbelter.makesumgame.game.Level;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectLevelActivity extends ListActivity {
+public class SelectLevelActivity extends Activity {
     public static final String KEY_SELECTED_LEVEL =
             "com.acbelter.makesumgame.KEY_SELECTED_LEVEL";
     private static final String KEY_LEVELS =
             "com.acbelter.makesumgame.KEY_LEVELS";
     private static final int RQ_START_GAME = 0;
     private ArrayList<Level> mLevels;
-    private LevelsListAdapter mAdapter;
+    private GridView mLevelsGrid;
+    private LevelsGridAdapter mAdapter;
 
     private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_select_level);
+        mLevelsGrid = (GridView) findViewById(R.id.levels_grid);
+
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (savedInstanceState != null) {
             mLevels = savedInstanceState.getParcelableArrayList(KEY_LEVELS);
@@ -78,11 +83,12 @@ public class SelectLevelActivity extends ListActivity {
             levelItems.add(newItem);
         }
 
-        mAdapter = new LevelsListAdapter(this, levelItems);
-        setListAdapter(mAdapter);
-        getListView().setOnItemClickListener(new OnItemClickListener() {
+        mAdapter = new LevelsGridAdapter(this, levelItems);
+        mLevelsGrid.setAdapter(mAdapter);
+        mLevelsGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(Utils.DEBUG_TAG, "CLICK " + position);
                 LevelItem selectedItem = mAdapter.getItem(position);
                 if (!selectedItem.levelLock) {
                     Level selectedLevel = selectedItem.getLevel();

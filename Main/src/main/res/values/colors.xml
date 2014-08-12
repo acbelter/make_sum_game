@@ -27,5 +27,5 @@
     <color name="button_selected_color_end">#79C83F</color>
     <color name="button_normal_color_start">#1f71df</color>
     <color name="button_normal_color_end">#619be9</color>
-    <color name="button_text_color">#FFFFFF</color>
+    <color name="text_color">#FFFFFF</color>
 </resources>

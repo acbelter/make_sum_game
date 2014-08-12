@@ -16,25 +16,32 @@
 -->
 
 <resources>
-  <style name="AppTheme" parent="android:Theme.Light.NoTitleBar.Fullscreen">
+    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar.Fullscreen">
 
-  </style>
+    </style>
 
-  <style name="ButtonStyle" parent="@android:style/Widget.Button">
-    <item name="android:background">@drawable/btn_background</item>
-    <item name="android:layout_margin">2dp</item>
-    <item name="android:textColor">@color/button_text_color</item>
-    <item name="android:textStyle">bold</item>
-    <item name="android:textSize">@dimen/btn_text_size</item>
-  </style>
+    <style name="ButtonStyle" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/btn_background</item>
+        <item name="android:layout_margin">@dimen/btn_margin</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
 
-  <style name="GameFieldButtonStyle" parent="@android:style/Widget.Button">
-    <item name="android:layout_width">@dimen/btn_size</item>
-    <item name="android:layout_height">@dimen/btn_size</item>
-    <item name="android:layout_margin">@dimen/btn_margin</item>
-    <item name="android:background">@drawable/btn_background</item>
-    <item name="android:textColor">@color/button_text_color</item>
-    <item name="android:textStyle">bold</item>
-    <item name="android:textSize">@dimen/field_btn_text_size</item>
-  </style>
+    <style name="GameFieldButtonStyle" parent="ButtonStyle">
+        <item name="android:layout_width">@dimen/btn_size</item>
+        <item name="android:layout_height">@dimen/btn_size</item>
+    </style>
+
+    <style name="LevelItemStyle">
+        <item name="android:background">@drawable/level_item_background</item>
+        <item name="android:layout_width">@dimen/level_item_size</item>
+        <item name="android:layout_height">@dimen/level_item_size</item>
+    </style>
+
+    <style name="TextStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
 </resources>

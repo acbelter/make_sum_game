@@ -15,12 +15,16 @@
  ~ limitations under the License.
 -->
 
-<resources>
-    <dimen name="menu_btn_margin">60dp</dimen>
-    <dimen name="level_item_size">90dp</dimen>
-    <dimen name="btn_size">56dp</dimen>
-    <dimen name="btn_margin">2dp</dimen>
-    <dimen name="big_size">32sp</dimen>
-    <dimen name="medium_size">24sp</dimen>
-    <dimen name="text_size">24sp</dimen>
-</resources>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/levels_grid"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:padding="8dp"
+          android:columnWidth="@dimen/level_item_size"
+          android:horizontalSpacing="8dp"
+          android:verticalSpacing="8dp"
+          android:numColumns="3"
+          android:stretchMode="columnWidth"
+          android:overScrollMode="never"
+          android:scrollbars="none"
+          android:listSelector="@android:color/transparent"/>
