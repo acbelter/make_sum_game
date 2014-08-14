@@ -33,9 +33,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.contains(SettingsActivity.PREF_TRAINING_DIFFICULTY)) {
+        if (!prefs.contains(TrainingSettingsActivity.PREF_TRAINING_DIFFICULTY)) {
             Editor editor = prefs.edit();
-            editor.putString(SettingsActivity.PREF_TRAINING_DIFFICULTY, Difficulty.EASY.name());
+            editor.putString(TrainingSettingsActivity.PREF_TRAINING_DIFFICULTY, Difficulty.EASY.name());
             editor.commit();
         }
     }
@@ -46,12 +46,12 @@ public class MainActivity extends Activity {
     }
 
     public void startTraining(View view) {
-        Intent startIntent = new Intent(this, TrainingGameActivity.class);
+        Intent startIntent = new Intent(this, TrainingSettingsActivity.class);
         startActivity(startIntent);
     }
 
-    public void openSettings(View view) {
-        Intent startIntent = new Intent(this, SettingsActivity.class);
+    public void openAbout(View view) {
+        Intent startIntent = new Intent(this, AboutActivity.class);
         startActivity(startIntent);
     }
 

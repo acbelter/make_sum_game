@@ -21,13 +21,23 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <TextView
+      android:id="@+id/timer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:layout_gravity="center_horizontal"
+      android:textSize="@dimen/very_large_text_size"
+      android:textColor="@color/text_color"
+      tools:text="00:00"/>
+
     <LinearLayout
       android:orientation="horizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
       android:layout_marginLeft="16dp"
-      android:layout_marginRight="16dp">
+      android:layout_marginRight="16dp"
+      android:layout_marginBottom="24dp">
 
         <TextView
           android:id="@+id/player_sum"
@@ -35,7 +45,7 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:gravity="left"
-          android:textSize="@dimen/big_size"
+          android:textSize="@dimen/sum_text_size"
           android:textColor="@color/player_sum_color"
           tools:text="50"/>
 
@@ -45,39 +55,28 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:gravity="right"
-          android:textSize="@dimen/big_size"
+          android:textSize="@dimen/sum_text_size"
           android:textColor="@color/full_sum_color"
           tools:text="100"/>
     </LinearLayout>
 
-    <LinearLayout
-      android:orientation="horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:layout_marginBottom="32dp"
-      android:layout_marginLeft="16dp"
-      android:layout_marginRight="16dp">
-
-        <TextView
-          android:id="@+id/timer"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:gravity="left"
-          android:textSize="@dimen/big_size"
-          tools:text="00:00"/>
-
-        <TextView
-          android:id="@+id/score"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:gravity="right"
-          android:textSize="@dimen/big_size"
-          tools:text="0"/>
-    </LinearLayout>
-
     <include layout="@layout/game_field"/>
 
+    <TextView
+      android:id="@+id/score_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginTop="24dp"
+      style="@style/TextStyle"
+      android:text="@string/score"/>
+
+    <TextView
+      android:id="@+id/score"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:textSize="@dimen/sum_text_size"
+      android:textColor="@color/text_color"
+      tools:text="0"/>
 </LinearLayout>

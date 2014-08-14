@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.Toast;
 import com.acbelter.makesumgame.LevelsParser;
 import com.acbelter.makesumgame.R;
 import com.acbelter.makesumgame.Utils;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectLevelActivity extends Activity {
+    private static final String LEVEL_PREFIX = "level_";
     public static final String KEY_SELECTED_LEVEL =
             "com.acbelter.makesumgame.KEY_SELECTED_LEVEL";
     private static final String KEY_LEVELS =
@@ -67,18 +69,16 @@ public class SelectLevelActivity extends Activity {
         }
 
         // Open first level
-        if (!mPrefs.contains(SettingsActivity.LEVEL_PREFIX + mLevels.get(0).getId())) {
-            mPrefs.edit().putLong(SettingsActivity.LEVEL_PREFIX + mLevels.get(0).getId(), 0)
-                    .commit();
+        if (!mPrefs.contains(LEVEL_PREFIX + mLevels.get(0).getId())) {
+            mPrefs.edit().putLong(LEVEL_PREFIX + mLevels.get(0).getId(), 0).commit();
         }
 
         List<LevelItem> levelItems = new ArrayList<LevelItem>(mLevels.size());
         for (int i = 0; i < mLevels.size(); i++) {
             LevelItem newItem = new LevelItem(mLevels.get(i));
-            if (mPrefs.contains(SettingsActivity.LEVEL_PREFIX + mLevels.get(i).getId())) {
+            if (mPrefs.contains(LEVEL_PREFIX + mLevels.get(i).getId())) {
                 newItem.levelLock = false;
-                newItem.maxScore = mPrefs.getLong(SettingsActivity.LEVEL_PREFIX +
-                        mLevels.get(i).getId(), 0);
+                newItem.maxScore = mPrefs.getLong(LEVEL_PREFIX + mLevels.get(i).getId(), 0);
             }
             levelItems.add(newItem);
         }
@@ -88,7 +88,6 @@ public class SelectLevelActivity extends Activity {
         mLevelsGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(Utils.DEBUG_TAG, "CLICK " + position);
                 LevelItem selectedItem = mAdapter.getItem(position);
                 if (!selectedItem.levelLock) {
                     Level selectedLevel = selectedItem.getLevel();
@@ -109,6 +108,18 @@ public class SelectLevelActivity extends Activity {
         return -1;
     }
 
+    public void resetGameProgress(View view) {
+        Editor editor = mPrefs.edit();
+        for (String key : mPrefs.getAll().keySet()) {
+            if (key.startsWith(LEVEL_PREFIX)) {
+                editor.remove(key);
+            }
+        }
+        editor.commit();
+        Toast.makeText(this, getResources().getString(R.string.reset_progress_msg),
+                Toast.LENGTH_LONG).show();
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -116,7 +127,7 @@ public class SelectLevelActivity extends Activity {
         for (int i = 0; i < mAdapter.getCount(); i++) {
             if (!mAdapter.getItem(i).levelLock) {
                 int id = mAdapter.getItem(i).getLevel().getId();
-                editor.putLong(SettingsActivity.LEVEL_PREFIX + id, mAdapter.getItem(i).maxScore);
+                editor.putLong(LEVEL_PREFIX + id, mAdapter.getItem(i).maxScore);
             }
         }
         editor.commit();

@@ -17,19 +17,18 @@
 package com.acbelter.makesumgame.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.Toast;
 import com.acbelter.makesumgame.R;
 import com.acbelter.makesumgame.game.Difficulty;
 
-public class SettingsActivity extends Activity {
+public class TrainingSettingsActivity extends Activity {
     public static final String PREF_TRAINING_DIFFICULTY = "training_difficulty";
-    public static final String LEVEL_PREFIX = "level_";
 
     private SharedPreferences mPrefs;
     private RadioButton mRadioEasy;
@@ -39,7 +38,7 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_training_settings);
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mRadioEasy = (RadioButton) findViewById(R.id.level_easy);
         mRadioMedium = (RadioButton) findViewById(R.id.level_medium);
@@ -68,18 +67,6 @@ public class SettingsActivity extends Activity {
         }
     }
 
-    public void resetGameProgress(View view) {
-        Editor editor = mPrefs.edit();
-        for (String key : mPrefs.getAll().keySet()) {
-            if (key.startsWith(LEVEL_PREFIX)) {
-                editor.remove(key);
-            }
-        }
-        editor.commit();
-        Toast.makeText(this, getResources().getString(R.string.reset_progress_msg),
-                Toast.LENGTH_LONG).show();
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -94,5 +81,10 @@ public class SettingsActivity extends Activity {
             editor.putString(PREF_TRAINING_DIFFICULTY, Difficulty.HARD.name());
         }
         editor.commit();
+    }
+
+    public void startTraining(View view) {
+        Intent startIntent = new Intent(this, TrainingGameActivity.class);
+        startActivity(startIntent);
     }
 }

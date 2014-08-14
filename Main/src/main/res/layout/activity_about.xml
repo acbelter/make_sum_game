@@ -16,32 +16,42 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
-              style="@style/LevelItemStyle">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"/>
 
     <TextView
-      android:id="@+id/level_number"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:textColor="@color/widget_text_color"
-      android:textSize="@dimen/large_text_size"
-      tools:text="21"/>
-
-    <ImageView
-      android:id="@+id/lock_image"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="right"
-      android:src="@drawable/ic_lock"/>
-
-    <TextView
-      android:id="@+id/max_score"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:gravity="right"
-      android:textColor="@color/widget_text_color"
-      android:visibility="gone"
-      tools:text="123"/>
+      android:textSize="@dimen/large_text_size"
+      android:textColor="@color/text_color"
+      android:gravity="center"
+      android:text="@string/about_text"/>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/medium_text_size"
+      android:autoLink="email"
+      android:gravity="center_horizontal"
+      android:text="@string/email"/>
+
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"/>
+
+    <Button
+      android:layout_width="@dimen/btn_width"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginBottom="8dp"
+      style="@style/ButtonStyle"
+      android:text="@string/ok"
+      android:onClick="closeAbout"/>
 </LinearLayout>

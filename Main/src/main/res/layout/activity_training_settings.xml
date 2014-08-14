@@ -30,22 +30,22 @@
       android:id="@+id/level_easy"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/level_easy"
-      android:textSize="@dimen/big_size"/>
+      style="@style/TextStyle"
+      android:text="@string/level_easy"/>
 
     <RadioButton
       android:id="@+id/level_medium"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/level_medium"
-      android:textSize="@dimen/big_size"/>
+      style="@style/TextStyle"
+      android:text="@string/level_medium"/>
 
     <RadioButton
       android:id="@+id/level_hard"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/level_hard"
-      android:textSize="@dimen/big_size"/>
+      style="@style/TextStyle"
+      android:text="@string/level_hard"/>
 
     <View
       android:layout_width="match_parent"
@@ -53,11 +53,11 @@
       android:layout_weight="1"/>
 
     <Button
-      android:id="@+id/btn_reset"
-      android:layout_width="match_parent"
+      android:layout_width="@dimen/btn_width"
       android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
       style="@style/ButtonStyle"
       android:layout_marginBottom="8dp"
-      android:text="@string/reset"
-      android:onClick="resetGameProgress"/>
+      android:text="@string/start"
+      android:onClick="startTraining"/>
 </RadioGroup>

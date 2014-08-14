@@ -18,9 +18,11 @@
 <resources>
     <dimen name="menu_btn_margin">60dp</dimen>
     <dimen name="level_item_size">90dp</dimen>
-    <dimen name="btn_size">56dp</dimen>
+    <dimen name="game_field_btn_size">56dp</dimen>
+    <dimen name="btn_width">160dp</dimen>
     <dimen name="btn_margin">2dp</dimen>
-    <dimen name="big_size">32sp</dimen>
-    <dimen name="medium_size">24sp</dimen>
-    <dimen name="text_size">24sp</dimen>
+    <dimen name="large_text_size">32sp</dimen>
+    <dimen name="very_large_text_size">50sp</dimen>
+    <dimen name="medium_text_size">24sp</dimen>
+    <dimen name="sum_text_size">42sp</dimen>
 </resources>

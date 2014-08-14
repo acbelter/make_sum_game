@@ -24,33 +24,33 @@
               android:layout_marginRight="@dimen/menu_btn_margin">
 
     <Button
-      android:id="@+id/btn_start_game"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_margin="@dimen/btn_margin"
       style="@style/ButtonStyle"
       android:text="@string/start"
       android:onClick="startGame"/>
 
     <Button
-      android:id="@+id/btn_start_training"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_margin="@dimen/btn_margin"
       style="@style/ButtonStyle"
       android:text="@string/training"
       android:onClick="startTraining"/>
 
     <Button
-      android:id="@+id/btn_settings"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_margin="@dimen/btn_margin"
       style="@style/ButtonStyle"
-      android:text="@string/settings"
-      android:onClick="openSettings"/>
+      android:text="@string/about"
+      android:onClick="openAbout"/>
 
     <Button
-      android:id="@+id/btn_exit"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_margin="@dimen/btn_margin"
       style="@style/ButtonStyle"
       android:text="@string/exit"
       android:onClick="exit"/>

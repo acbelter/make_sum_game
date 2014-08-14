@@ -21,13 +21,18 @@
     <string name="training">Тренировка</string>
     <string name="settings">Настройки</string>
     <string name="exit">Выход</string>
-    <string name="level_easy">Легкий</string>
-    <string name="level_medium">Нормальный</string>
-    <string name="level_hard">Тяжелый</string>
+    <string name="level_easy">Легкая</string>
+    <string name="level_medium">Нормальная</string>
+    <string name="level_hard">Тяжелая</string>
     <string name="reset">Сброс</string>
+    <string name="score">Очки:</string>
 
     <string name="level_complete_msg">Уровень пройден!\nОчков</string>
     <string name="level_not_complete_msg">Уровень не пройден!</string>
     <string name="made_sum_msg">Собрана сумма</string>
     <string name="reset_progress_msg">Игоровой прогресс сброшен!</string>
+    <string name="about">Об игре</string>
+    <string name="ok">OK</string>
+    <string name="about_text">acbelter, 2014</string>
+    <string name="email">acbelter@gmail.com</string>
 </resources>

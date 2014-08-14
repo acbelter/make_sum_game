@@ -15,16 +15,32 @@
  ~ limitations under the License.
 -->
 
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@+id/levels_grid"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="8dp"
-          android:columnWidth="@dimen/level_item_size"
-          android:horizontalSpacing="8dp"
-          android:verticalSpacing="8dp"
-          android:numColumns="3"
-          android:stretchMode="columnWidth"
-          android:overScrollMode="never"
-          android:scrollbars="none"
-          android:listSelector="@android:color/transparent"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <GridView
+      android:id="@+id/levels_grid"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:padding="8dp"
+      android:columnWidth="@dimen/level_item_size"
+      android:horizontalSpacing="8dp"
+      android:verticalSpacing="8dp"
+      android:numColumns="3"
+      android:stretchMode="columnWidth"
+      android:overScrollMode="never"
+      android:scrollbars="none"
+      android:listSelector="@android:color/transparent"/>
+
+    <Button
+      android:layout_width="@dimen/btn_width"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginBottom="8dp"
+      style="@style/ButtonStyle"
+      android:text="@string/reset"
+      android:onClick="resetGameProgress"/>
+</LinearLayout>
