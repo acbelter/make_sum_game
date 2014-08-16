@@ -28,7 +28,14 @@ public class AboutActivity extends Activity {
         setContentView(R.layout.activity_about);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
+    }
+
     public void closeAbout(View view) {
         finish();
+        overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
     }
 }

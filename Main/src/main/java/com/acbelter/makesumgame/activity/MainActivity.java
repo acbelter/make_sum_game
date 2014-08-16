@@ -43,19 +43,29 @@ public class MainActivity extends Activity {
     public void startGame(View view) {
         Intent startIntent = new Intent(this, SelectLevelActivity.class);
         startActivity(startIntent);
+        overridePendingTransition(R.anim.enter_slide_in, R.anim.enter_slide_out);
     }
 
     public void startTraining(View view) {
         Intent startIntent = new Intent(this, TrainingSettingsActivity.class);
         startActivity(startIntent);
+        overridePendingTransition(R.anim.enter_slide_in, R.anim.enter_slide_out);
     }
 
     public void openAbout(View view) {
         Intent startIntent = new Intent(this, AboutActivity.class);
         startActivity(startIntent);
+        overridePendingTransition(R.anim.enter_slide_in, R.anim.enter_slide_out);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
     }
 
     public void exit(View view) {
         finish();
+        overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
     }
 }

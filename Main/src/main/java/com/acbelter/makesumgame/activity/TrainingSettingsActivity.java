@@ -83,8 +83,15 @@ public class TrainingSettingsActivity extends Activity {
         editor.commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
+    }
+
     public void startTraining(View view) {
         Intent startIntent = new Intent(this, TrainingGameActivity.class);
         startActivity(startIntent);
+        overridePendingTransition(R.anim.enter_slide_in, R.anim.enter_slide_out);
     }
 }

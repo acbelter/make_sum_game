@@ -308,6 +308,13 @@ public class GameActivity extends Activity {
 //        }
 //    }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
