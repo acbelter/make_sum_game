@@ -94,6 +94,7 @@ public class SelectLevelActivity extends Activity {
                     Intent startIntent = new Intent(SelectLevelActivity.this, GameActivity.class);
                     startIntent.putExtra(KEY_SELECTED_LEVEL, selectedLevel);
                     startActivityForResult(startIntent, RQ_START_GAME);
+                    overridePendingTransition(R.anim.enter_slide_in, R.anim.enter_slide_out);
                 }
             }
         });

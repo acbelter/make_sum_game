@@ -25,7 +25,7 @@ import com.acbelter.makesumgame.game.state.TimerState;
 
 public class BlinkedCountDownTimer extends CountDownTimer {
     public static final int CODE_FINISHED = 0;
-    private static int sBlinkColor = Color.RED;
+    private static int sBlinkColor = Color.parseColor("#cc0000");
     private TextView mTimerView;
     private ColorStateList mDefaultTimerViewColor;
     private long mTimeBlinkInMillis;
