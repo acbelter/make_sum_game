@@ -35,4 +35,7 @@
     <string name="ok">OK</string>
     <string name="about_text">acbelter, 2014</string>
     <string name="email">acbelter@gmail.com</string>
+    <string name="confirm_text">Вы уверены?</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
 </resources>

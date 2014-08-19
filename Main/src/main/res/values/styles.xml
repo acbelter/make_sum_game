@@ -30,6 +30,7 @@
         <item name="android:layout_width">@dimen/game_field_btn_size</item>
         <item name="android:layout_height">@dimen/game_field_btn_size</item>
         <item name="android:layout_margin">@dimen/btn_margin</item>
+        <item name="android:textSize">@dimen/game_field_btn_text_size</item>
     </style>
 
     <style name="LevelItemStyle">

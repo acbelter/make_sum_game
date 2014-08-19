@@ -64,9 +64,9 @@ public class LevelsParser {
                 xpp.next();
             }
         } catch (XmlPullParserException e) {
-            Log.e("DEBUG", "Can't parse levels from resources: XmlPullParserException");
+            Log.e(Utils.DEBUG_TAG, "Can't parse levels from resources: XmlPullParserException");
         } catch (IOException e) {
-            Log.e("DEBUG", "Can't parse levels from resources: IOException");
+            Log.e(Utils.DEBUG_TAG, "Can't parse levels from resources: IOException");
         }
         return levels;
     }

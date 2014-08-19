@@ -43,6 +43,7 @@ public class SelectLevelActivity extends Activity {
     private static final String KEY_LEVELS =
             "com.acbelter.makesumgame.KEY_LEVELS";
     private static final int RQ_START_GAME = 0;
+    public static final int RQ_RESET_CONFIRM = 1;
     private ArrayList<Level> mLevels;
     private GridView mLevelsGrid;
     private LevelsGridAdapter mAdapter;
@@ -110,15 +111,9 @@ public class SelectLevelActivity extends Activity {
     }
 
     public void resetGameProgress(View view) {
-        Editor editor = mPrefs.edit();
-        for (String key : mPrefs.getAll().keySet()) {
-            if (key.startsWith(LEVEL_PREFIX)) {
-                editor.remove(key);
-            }
-        }
-        editor.commit();
-        Toast.makeText(this, getResources().getString(R.string.reset_progress_msg),
-                Toast.LENGTH_LONG).show();
+        Intent startIntent = new Intent(this, ResetProgressConfirmActivity.class);
+        startActivityForResult(startIntent, RQ_RESET_CONFIRM);
+        overridePendingTransition(R.anim.enter_slide_in, R.anim.enter_slide_out);
     }
 
     @Override
@@ -164,6 +159,18 @@ public class SelectLevelActivity extends Activity {
                     mAdapter.getItem(pos+1).levelLock = false;
                 }
                 mAdapter.notifyDataSetChanged();
+                return;
+            }
+            if (requestCode == RQ_RESET_CONFIRM) {
+                Editor editor = mPrefs.edit();
+                for (String key : mPrefs.getAll().keySet()) {
+                    if (key.startsWith(LEVEL_PREFIX)) {
+                        editor.remove(key);
+                    }
+                }
+                editor.commit();
+                Toast.makeText(this, getResources().getString(R.string.reset_progress_msg),
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
