@@ -34,7 +34,7 @@ public class AboutActivity extends Activity {
         overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
     }
 
-    public void closeAbout(View view) {
+    public void close(View view) {
         finish();
         overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
     }

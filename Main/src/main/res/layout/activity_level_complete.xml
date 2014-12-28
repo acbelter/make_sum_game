@@ -16,6 +16,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -31,7 +32,59 @@
       android:textSize="@dimen/large_text_size"
       android:textColor="@color/text_color"
       android:gravity="center"
-      android:text="@string/level_complete_msg"/>
+      android:text="@string/level"/>
+
+    <TextView
+      android:id="@+id/level_number"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/large_text_size"
+      android:textColor="@color/text_color"
+      android:gravity="center"
+      tools:text="21"/>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/large_text_size"
+      android:textColor="@color/text_color"
+      android:layout_marginBottom="16dp"
+      android:gravity="center"
+      android:text="@string/is_completed"/>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/large_text_size"
+      android:textColor="@color/text_color"
+      android:gravity="center"
+      android:text="@string/you_score"/>
+
+    <TextView
+      android:id="@+id/your_score"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/large_text_size"
+      android:textColor="@color/red_color"
+      android:gravity="center"
+      tools:text="123"/>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/large_text_size"
+      android:textColor="@color/text_color"
+      android:gravity="center"
+      android:text="@string/need_score"/>
+
+    <TextView
+      android:id="@+id/need_score"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/large_text_size"
+      android:textColor="@color/red_color"
+      android:gravity="center"
+      tools:text="100"/>
 
     <View
       android:layout_width="match_parent"
@@ -45,5 +98,5 @@
       android:layout_marginBottom="8dp"
       style="@style/ButtonStyle"
       android:text="@string/ok"
-      android:onClick="closeAbout"/>
+      android:onClick="close"/>
 </LinearLayout>

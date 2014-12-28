@@ -275,12 +275,12 @@ public class GameActivity extends Activity {
     }
 
     private void showLevelCompleteMessage() {
-        Toast.makeText(this, getResources().getString(R.string.level_complete_msg)
+        Toast.makeText(this, getResources().getString(R.string.is_completed)
                 + " " + mGameState.score + ".", Toast.LENGTH_LONG).show();
     }
 
     private void showLevelNotCompleteMessage() {
-        Toast.makeText(this, getResources().getString(R.string.level_not_complete_msg),
+        Toast.makeText(this, getResources().getString(R.string.is_not_completed),
                 Toast.LENGTH_LONG).show();
     }
 

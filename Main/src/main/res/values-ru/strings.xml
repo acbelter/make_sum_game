@@ -27,8 +27,12 @@
     <string name="reset">Сброс</string>
     <string name="score">Очки:</string>
 
-    <string name="level_complete_msg">Уровень пройден!\nОчков</string>
-    <string name="level_not_complete_msg">Уровень не пройден!</string>
+    <string name="level">Уровень</string>
+    <string name="is_completed">пройден!</string>
+    <string name="is_not_completed">не пройден!</string>
+    <string name="you_score">Ваши очки:</string>
+    <string name="need_score">Нужно очков:</string>
+
     <string name="made_sum_msg">Собрана сумма</string>
     <string name="reset_progress_msg">Игоровой прогресс сброшен!</string>
     <string name="about">Об игре</string>
@@ -38,4 +42,6 @@
     <string name="confirm_text">Вы уверены?</string>
     <string name="no">Нет</string>
     <string name="yes">Да</string>
+
+    <string name="toast_crash">Приложение сломалось :(</string>
 </resources>

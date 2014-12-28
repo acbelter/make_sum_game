@@ -46,7 +46,7 @@
           android:layout_weight="1"
           android:gravity="left"
           android:textSize="@dimen/sum_text_size"
-          android:textColor="@color/player_sum_color"
+          android:textColor="@color/blue_color"
           tools:text="50"/>
 
         <TextView
@@ -56,7 +56,7 @@
           android:layout_weight="1"
           android:gravity="right"
           android:textSize="@dimen/sum_text_size"
-          android:textColor="@color/full_sum_color"
+          android:textColor="@color/red_color"
           tools:text="100"/>
     </LinearLayout>
 

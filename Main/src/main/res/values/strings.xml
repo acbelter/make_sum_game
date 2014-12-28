@@ -27,8 +27,12 @@
     <string name="reset">Reset</string>
     <string name="score">Score:</string>
 
-    <string name="level_complete_msg">Level complete!\nYour score is</string>
-    <string name="level_not_complete_msg">Level isn\'t complete!</string>
+    <string name="level">Level</string>
+    <string name="is_completed">is completed!</string>
+    <string name="is_not_completed">isn\'t completed!</string>
+    <string name="you_score">You score:</string>
+    <string name="need_score">Need score:</string>
+
     <string name="made_sum_msg">Made sum</string>
     <string name="reset_progress_msg">Game progress has been reset!</string>
     <string name="about">About</string>
@@ -38,4 +42,6 @@
     <string name="confirm_text">Are you sure?</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+
+    <string name="toast_crash">App has crashed :(</string>
 </resources>

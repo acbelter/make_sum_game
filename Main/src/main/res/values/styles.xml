@@ -16,7 +16,7 @@
 -->
 
 <resources>
-    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar.Fullscreen">
+    <style name="AppTheme" parent="android:Theme.Light">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 

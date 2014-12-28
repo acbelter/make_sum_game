@@ -17,6 +17,12 @@
 package com.acbelter.makesumgame.activity;
 
 import android.app.Activity;
+import com.acbelter.makesumgame.R;
 
 public class LevelNotCompleteActivity extends Activity {
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
+    }
 }

@@ -17,6 +17,25 @@
 package com.acbelter.makesumgame.activity;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import com.acbelter.makesumgame.R;
 
 public class LevelCompleteActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_level_complete);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
+    }
+
+    public void close(View view) {
+        finish();
+        overridePendingTransition(R.anim.exit_slide_in, R.anim.exit_slide_out);
+    }
 }

@@ -16,8 +16,8 @@
 -->
 
 <resources>
-    <color name="player_sum_color">#3333ff</color>
-    <color name="full_sum_color">#cc0000</color>
+    <color name="blue_color">#3333ff</color>
+    <color name="red_color">#cc0000</color>
     <color name="button_focused_color_start">#7fa40e</color>
     <color name="button_focused_color_end">#79c83f</color>
     <color name="button_pressed_color_start">#7fa40e</color>

@@ -59,28 +59,30 @@ public class LevelsGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_level, null);
 
-            final ViewHolder holder = new ViewHolder();
+            holder = new ViewHolder();
             holder.levelNumber = (TextView) convertView.findViewById(R.id.level_number);
             holder.lockImage = (ImageView) convertView.findViewById(R.id.lock_image);
             holder.maxScore = (TextView) convertView.findViewById(R.id.max_score);
 
             convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        final ViewHolder viewHolder = (ViewHolder) convertView.getTag();
         LevelItem levelItem = mLevelItems.get(position);
-        viewHolder.levelNumber.setText(Integer.toString(levelItem.levelNumber));
+        holder.levelNumber.setText(Integer.toString(levelItem.levelNumber));
 
         if (!levelItem.levelLock) {
-            viewHolder.lockImage.setVisibility(ImageView.GONE);
-            viewHolder.maxScore.setVisibility(ImageView.VISIBLE);
-            viewHolder.maxScore.setText(Long.toString(levelItem.maxScore));
+            holder.lockImage.setVisibility(View.GONE);
+            holder.maxScore.setVisibility(View.VISIBLE);
+            holder.maxScore.setText(Long.toString(levelItem.maxScore));
         } else {
-            viewHolder.lockImage.setVisibility(ImageView.VISIBLE);
-            viewHolder.maxScore.setVisibility(ImageView.GONE);
+            holder.lockImage.setVisibility(View.VISIBLE);
+            holder.maxScore.setVisibility(View.GONE);
         }
         return convertView;
     }
